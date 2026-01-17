@@ -2,6 +2,21 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * Card Component - Standardized container for content sections
+ *
+ * Usage:
+ * - Standard cards: <Card className="bg-zinc-900 border-zinc-800">
+ * - Warning cards: <Card className="bg-amber-500/10 border-amber-500/20">
+ * - Error cards: <Card className="bg-red-500/10 border-red-500/20">
+ *
+ * Structure:
+ * - CardHeader (p-6): Title + optional description
+ * - CardContent (p-6 pt-0): Main content
+ * - CardFooter (p-6 pt-0): Optional actions
+ *
+ * DO NOT create one-off card styles. Always use this component.
+ */
 const Card = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -9,7 +24,7 @@ const Card = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "rounded-lg border bg-card text-card-foreground shadow-sm",
+      "rounded-[--radius-lg] border bg-card text-card-foreground shadow-sm",
       className
     )}
     {...props}
