@@ -157,17 +157,34 @@ export default function DisclosePage() {
             <CardTitle>Upload Secret File</CardTitle>
             <CardDescription>Upload the secret file from your attestation</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="space-y-3">
             <Input
               type="file"
               accept=".json"
               onChange={handleFileUpload}
               className="bg-zinc-800 border-zinc-700"
+              aria-describedby={error && !secret ? "file-error" : undefined}
+              aria-invalid={error && !secret ? true : undefined}
             />
             {secret && (
-              <p className="text-accent text-sm mt-2">
-                &#x2713; Secret loaded for attestation {secret.attestationId.substring(0, 8)}...
+              <p className="text-accent text-sm flex items-center gap-2">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                Secret loaded for attestation {secret.attestationId.substring(0, 8)}...
               </p>
+            )}
+            {error && !secret && (
+              <div
+                id="file-error"
+                role="alert"
+                className="flex items-center gap-2 text-red-500 text-sm p-3 bg-red-500/10 border border-red-500/20 rounded-md"
+              >
+                <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                </svg>
+                <span>{error}</span>
+              </div>
             )}
           </CardContent>
         </Card>
@@ -261,12 +278,24 @@ export default function DisclosePage() {
                 </div>
               </div>
 
-              {error && <p className="text-red-500 text-sm">{error}</p>}
+              {error && secret && (
+                <div
+                  id="disclose-error"
+                  role="alert"
+                  className="flex items-center gap-2 text-red-500 text-sm p-3 bg-red-500/10 border border-red-500/20 rounded-md"
+                >
+                  <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                  </svg>
+                  <span>{error}</span>
+                </div>
+              )}
 
               <Button
                 onClick={handleCreate}
                 disabled={loading}
                 className="w-full bg-primary hover:bg-primary/90"
+                aria-describedby={error && secret ? "disclose-error" : undefined}
               >
                 {loading ? "Creating..." : "Create Disclosure Link"}
               </Button>
