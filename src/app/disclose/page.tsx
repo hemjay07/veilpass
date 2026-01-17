@@ -11,6 +11,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { ProgressTracker, type ProgressStep } from "@/components/ui/progress-tracker";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Celebration } from "@/components/ui/celebration";
+import { getClaimConfig, getClaimLabel } from "@/components/ui/claim-badge";
 import { Container } from "@/components/layout/Container";
 import type { AttestationSecret, ClaimType } from "@/types";
 
@@ -246,42 +247,53 @@ export default function DisclosePage() {
               <CardDescription>Only selected fields will be visible to auditors</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              {secret.fullClaims.map(claim => (
-                <div
-                  key={claim.type}
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => toggleField(claim.type)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      toggleField(claim.type);
-                    }
-                  }}
-                  className={`p-4 min-h-[56px] rounded-lg border cursor-pointer transition-colors duration-150 ease-out focus-ring ${
-                    selectedFields.includes(claim.type)
-                      ? "border-accent bg-accent/10"
-                      : "border-zinc-800 hover:border-zinc-700"
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      <div className="flex items-center justify-center w-6 h-6">
-                        <Checkbox
-                          id={`field-${claim.type}`}
-                          checked={selectedFields.includes(claim.type)}
-                          onCheckedChange={() => toggleField(claim.type)}
-                          tabIndex={-1}
-                        />
+              {secret.fullClaims.map(claim => {
+                const claimConfig = getClaimConfig(claim.type);
+                const Icon = claimConfig?.icon;
+                return (
+                  <div
+                    key={claim.type}
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => toggleField(claim.type)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        toggleField(claim.type);
+                      }
+                    }}
+                    className={`p-4 min-h-[56px] rounded-lg border cursor-pointer transition-colors duration-150 ease-out focus-ring ${
+                      selectedFields.includes(claim.type)
+                        ? "border-accent bg-accent/10"
+                        : "border-zinc-800 hover:border-zinc-700"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-4">
+                        <div className="flex items-center justify-center w-6 h-6">
+                          <Checkbox
+                            id={`field-${claim.type}`}
+                            checked={selectedFields.includes(claim.type)}
+                            onCheckedChange={() => toggleField(claim.type)}
+                            tabIndex={-1}
+                          />
+                        </div>
+                        {Icon && (
+                          <div className={`flex items-center justify-center w-8 h-8 rounded-lg ${
+                            selectedFields.includes(claim.type) ? "bg-accent/20 text-accent" : "bg-zinc-800 text-zinc-400"
+                          }`}>
+                            <Icon className="w-4 h-4" aria-hidden="true" />
+                          </div>
+                        )}
+                        <Label htmlFor={`field-${claim.type}`} className="cursor-pointer font-medium">{getClaimLabel(claim.type)}</Label>
                       </div>
-                      <Label htmlFor={`field-${claim.type}`} className="cursor-pointer font-medium">{claim.type}</Label>
+                      {selectedFields.includes(claim.type) && (
+                        <span className="text-accent text-sm">Will be disclosed</span>
+                      )}
                     </div>
-                    {selectedFields.includes(claim.type) && (
-                      <span className="text-accent text-sm">Will be disclosed</span>
-                    )}
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </CardContent>
           </Card>
         )}

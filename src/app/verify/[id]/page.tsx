@@ -6,8 +6,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Skeleton } from "@/components/ui/skeleton";
 import { AuthenticitySeal } from "@/components/ui/authenticity-seal";
 import { VeilReveal } from "@/components/ui/veil-reveal";
+import { getClaimConfig, getClaimLabel } from "@/components/ui/claim-badge";
 import { Container } from "@/components/layout/Container";
-import type { VerificationResult } from "@/types";
+import type { VerificationResult, ClaimType } from "@/types";
 
 export default function VerifyPage() {
   const params = useParams();
@@ -107,24 +108,35 @@ export default function VerifyPage() {
           <div>
             <p className="text-sm text-zinc-400 mb-2">Disclosed Claims</p>
             <div className="space-y-2">
-              {Object.entries(result.disclosedData || {}).map(([key, value]: [string, any], index) => (
-                <VeilReveal key={key} delay={300 + (index * 150)}>
-                  <div className="p-3 bg-zinc-800 rounded-lg border border-transparent hover:border-zinc-700 transition-colors">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <p className="font-medium">{key}</p>
-                        <p className="text-sm text-zinc-400">Provider: {value.provider}</p>
+              {Object.entries(result.disclosedData || {}).map(([key, value]: [string, any], index) => {
+                const claimConfig = getClaimConfig(key as ClaimType);
+                const Icon = claimConfig?.icon;
+                return (
+                  <VeilReveal key={key} delay={300 + (index * 150)}>
+                    <div className="p-3 bg-zinc-800 rounded-lg border border-transparent hover:border-zinc-700 transition-colors">
+                      <div className="flex justify-between items-start">
+                        <div className="flex items-start gap-3">
+                          {Icon && (
+                            <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-accent/20 text-accent flex-shrink-0 mt-0.5">
+                              <Icon className="w-4 h-4" aria-hidden="true" />
+                            </div>
+                          )}
+                          <div>
+                            <p className="font-medium">{getClaimLabel(key as ClaimType)}</p>
+                            <p className="text-sm text-zinc-400">Provider: {value.provider}</p>
+                          </div>
+                        </div>
+                        <span className="px-2 py-1 bg-accent/20 text-accent rounded text-sm">
+                          {value.value === true ? "Verified" : String(value.value)}
+                        </span>
                       </div>
-                      <span className="px-2 py-1 bg-accent/20 text-accent rounded text-sm">
-                        {value.value === true ? "Verified" : String(value.value)}
-                      </span>
+                      <p className="text-xs text-zinc-500 mt-1 ml-11">
+                        Issued: {new Date(value.issuedAt).toLocaleDateString()}
+                      </p>
                     </div>
-                    <p className="text-xs text-zinc-500 mt-1">
-                      Issued: {new Date(value.issuedAt).toLocaleDateString()}
-                    </p>
-                  </div>
-                </VeilReveal>
-              ))}
+                  </VeilReveal>
+                );
+              })}
             </div>
           </div>
 

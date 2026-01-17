@@ -11,6 +11,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { ProgressTracker, type ProgressStep } from "@/components/ui/progress-tracker";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Celebration } from "@/components/ui/celebration";
+import { ClaimBadge, getClaimConfig } from "@/components/ui/claim-badge";
 import { Container } from "@/components/layout/Container";
 import type { ClaimType, Attestation, AttestationSecret } from "@/types";
 
@@ -150,9 +151,7 @@ export default function AttestPage() {
                 <p className="text-sm text-zinc-400">Claims</p>
                 <div className="flex flex-wrap gap-2 mt-1">
                   {result.attestation.claims.map(claim => (
-                    <span key={claim} className="px-2 py-1 bg-accent/20 text-accent rounded text-sm">
-                      {claim}
-                    </span>
+                    <ClaimBadge key={claim} type={claim} />
                   ))}
                 </div>
               </div>
@@ -217,40 +216,51 @@ export default function AttestPage() {
           <CardDescription>Choose which compliance claims to include in your attestation</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          {CLAIM_OPTIONS.map(({ type, label, description }) => (
-            <div
-              key={type}
-              role="button"
-              tabIndex={0}
-              onClick={() => toggleClaim(type)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  toggleClaim(type);
-                }
-              }}
-              className={`p-4 min-h-[56px] rounded-lg border cursor-pointer transition-colors duration-150 ease-out focus-ring ${
-                selectedClaims.includes(type)
-                  ? "border-accent bg-accent/10"
-                  : "border-zinc-800 hover:border-zinc-700"
-              }`}
-            >
-              <div className="flex items-center gap-4">
-                <div className="flex items-center justify-center w-6 h-6">
-                  <Checkbox
-                    id={`claim-${type}`}
-                    checked={selectedClaims.includes(type)}
-                    onCheckedChange={() => toggleClaim(type)}
-                    tabIndex={-1}
-                  />
-                </div>
-                <div className="flex-1">
-                  <Label htmlFor={`claim-${type}`} className="cursor-pointer font-medium">{label}</Label>
-                  <p className="text-sm text-zinc-400">{description}</p>
+          {CLAIM_OPTIONS.map(({ type, label, description }) => {
+            const claimConfig = getClaimConfig(type);
+            const Icon = claimConfig?.icon;
+            return (
+              <div
+                key={type}
+                role="button"
+                tabIndex={0}
+                onClick={() => toggleClaim(type)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleClaim(type);
+                  }
+                }}
+                className={`p-4 min-h-[56px] rounded-lg border cursor-pointer transition-colors duration-150 ease-out focus-ring ${
+                  selectedClaims.includes(type)
+                    ? "border-accent bg-accent/10"
+                    : "border-zinc-800 hover:border-zinc-700"
+                }`}
+              >
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center justify-center w-6 h-6">
+                    <Checkbox
+                      id={`claim-${type}`}
+                      checked={selectedClaims.includes(type)}
+                      onCheckedChange={() => toggleClaim(type)}
+                      tabIndex={-1}
+                    />
+                  </div>
+                  {Icon && (
+                    <div className={`flex items-center justify-center w-8 h-8 rounded-lg ${
+                      selectedClaims.includes(type) ? "bg-accent/20 text-accent" : "bg-zinc-800 text-zinc-400"
+                    }`}>
+                      <Icon className="w-4 h-4" aria-hidden="true" />
+                    </div>
+                  )}
+                  <div className="flex-1">
+                    <Label htmlFor={`claim-${type}`} className="cursor-pointer font-medium">{label}</Label>
+                    <p className="text-sm text-zinc-400">{description}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
 
           {error && (
             <div
