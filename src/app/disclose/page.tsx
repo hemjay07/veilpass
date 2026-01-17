@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Spinner } from "@/components/ui/spinner";
 import { Container } from "@/components/layout/Container";
 import type { AttestationSecret, ClaimType } from "@/types";
 
@@ -298,7 +299,14 @@ export default function DisclosePage() {
                 aria-describedby={error && secret ? "disclose-error" : undefined}
                 aria-busy={loading}
               >
-                {loading ? "Creating..." : "Create Disclosure Link"}
+                {loading ? (
+                  <>
+                    <Spinner size="sm" />
+                    <span>Creating...</span>
+                  </>
+                ) : (
+                  "Create Disclosure Link"
+                )}
               </Button>
             </CardContent>
           </Card>

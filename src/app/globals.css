@@ -59,6 +59,7 @@
 }
 
 @layer utilities {
+  /* Dialog animations with reduced motion support */
   .animate-dialog-in {
     animation: zoom-in-95 200ms cubic-bezier(0.22, 1, 0.36, 1);
   }
@@ -75,6 +76,17 @@
   }
   .animate-toast-out {
     animation: toast-fade-out 150ms ease-out;
+  }
+
+  /* Reduced motion support - disable animations for users who prefer reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-dialog-in,
+    .animate-dialog-out,
+    .animate-toast-in-bottom,
+    .animate-toast-in-top,
+    .animate-toast-out {
+      animation: none !important;
+    }
   }
 
   /* Consistent focus ring utility using box-shadow pattern
@@ -159,5 +171,20 @@
     .card-hover:hover {
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2);
     }
+  }
+}
+
+/* Global reduced motion support
+   - Removes all transitions and animations for users who prefer reduced motion
+   - This is a blanket rule that catches any CSS we might have missed
+*/
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

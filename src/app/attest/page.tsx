@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import { Spinner } from "@/components/ui/spinner";
 import { Container } from "@/components/layout/Container";
 import type { ClaimType, Attestation, AttestationSecret } from "@/types";
 
@@ -219,7 +220,14 @@ export default function AttestPage() {
             aria-describedby={error ? "attest-error" : undefined}
             aria-busy={loading}
           >
-            {loading ? "Generating..." : "Generate Attestation"}
+            {loading ? (
+              <>
+                <Spinner size="sm" />
+                <span>Generating...</span>
+              </>
+            ) : (
+              "Generate Attestation"
+            )}
           </Button>
 
           {selectedClaims.length === 0 && !error && (

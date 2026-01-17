@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Spinner } from "@/components/ui/spinner";
 import { Container } from "@/components/layout/Container";
 import {
   Select,
@@ -188,7 +189,14 @@ export default function MintPage() {
             </div>
 
             <Button type="submit" disabled={loading} className="w-full bg-primary hover:bg-primary/90" aria-busy={loading}>
-              {loading ? "Creating Token..." : "Create Token"}
+              {loading ? (
+                <>
+                  <Spinner size="sm" />
+                  <span>Creating Token...</span>
+                </>
+              ) : (
+                "Create Token"
+              )}
             </Button>
           </form>
         </CardContent>
