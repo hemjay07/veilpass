@@ -6,35 +6,53 @@ import { Container } from "@/components/layout/Container";
 export default function Home() {
   return (
     <>
-      {/* Hero Section */}
+      {/* Hero Section - F-Pattern optimized:
+          - Left-aligned headline for F-pattern scanning
+          - Primary CTA on left, secondary on right
+          - Key value prop in first horizontal scan
+      */}
       <section className="py-16 md:py-24">
-        <Container className="max-w-3xl text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">
-            Privacy that passes compliance
-          </h1>
-          <p className="text-lg md:text-xl text-zinc-400 mb-8">
-            Tokenize real-world assets with privacy. Prove KYC, AML, and accredited investor
-            status without exposing your personal information through cryptographic attestations.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/attest">
-              <Button size="lg" className="w-full sm:w-auto bg-primary hover:bg-primary/90">
-                Generate Attestation
-              </Button>
-            </Link>
-            <Link href="/dashboard">
-              <Button size="lg" variant="outline" className="w-full sm:w-auto">
-                View Dashboard
-              </Button>
-            </Link>
+        <Container className="max-w-4xl">
+          <div className="grid md:grid-cols-[1fr,auto] gap-8 items-center">
+            {/* Left side - Primary content (F-pattern vertical) */}
+            <div className="text-left">
+              <h1 className="text-4xl md:text-5xl font-bold mb-6">
+                Privacy that passes compliance
+              </h1>
+              <p className="text-lg md:text-xl text-zinc-400 mb-8 max-w-xl">
+                Tokenize real-world assets with privacy. Prove KYC, AML, and accredited investor
+                status without exposing your personal information through cryptographic attestations.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link href="/attest">
+                  <Button size="lg" className="w-full sm:w-auto bg-primary hover:bg-primary/90">
+                    Generate Attestation
+                  </Button>
+                </Link>
+                <Link href="/dashboard">
+                  <Button size="lg" variant="outline" className="w-full sm:w-auto">
+                    View Dashboard
+                  </Button>
+                </Link>
+              </div>
+            </div>
+            {/* Right side - Visual anchor (optional future enhancement: add illustration) */}
+            <div className="hidden md:flex items-center justify-center">
+              <div className="w-48 h-48 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center">
+                <div className="text-6xl font-bold text-primary/30">V</div>
+              </div>
+            </div>
           </div>
         </Container>
       </section>
 
-      {/* Features Section */}
+      {/* Features Section - F-pattern continuation:
+          - Left-aligned section header
+          - Cards flow naturally in reading order
+      */}
       <section className="py-16 bg-zinc-900/50">
         <Container>
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-12">
+          <h2 className="text-2xl md:text-3xl font-bold text-left mb-12">
             How VeilPass Works
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -85,20 +103,27 @@ export default function Home() {
         </Container>
       </section>
 
-      {/* CTA Section */}
+      {/* CTA Section - F-pattern endpoint:
+          - Left-aligned for natural eye movement
+          - Single strong CTA at F-pattern termination
+      */}
       <section className="py-16">
-        <Container className="max-w-2xl text-center">
-          <h2 className="text-2xl md:text-3xl font-bold mb-4">
-            Ready to tokenize with privacy?
-          </h2>
-          <p className="text-zinc-400 mb-8">
-            Start generating compliance attestations and take control of your privacy.
-          </p>
-          <Link href="/attest">
-            <Button size="lg" className="bg-primary hover:bg-primary/90">
-              Get Started
-            </Button>
-          </Link>
+        <Container className="max-w-4xl">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            <div className="text-left">
+              <h2 className="text-2xl md:text-3xl font-bold mb-2">
+                Ready to tokenize with privacy?
+              </h2>
+              <p className="text-zinc-400">
+                Start generating compliance attestations and take control of your privacy.
+              </p>
+            </div>
+            <Link href="/attest">
+              <Button size="lg" className="w-full md:w-auto bg-primary hover:bg-primary/90 whitespace-nowrap">
+                Get Started
+              </Button>
+            </Link>
+          </div>
         </Container>
       </section>
     </>
