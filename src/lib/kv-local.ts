@@ -2,7 +2,10 @@
 // Used when KV_REST_API_URL is not configured
 
 type StoredItem = { value: any; expiry?: number };
-const store = new Map<string, StoredItem>();
+
+// Use globalThis to persist store across Next.js hot reloads
+const globalForKv = globalThis as unknown as { kvStore: Map<string, StoredItem> };
+const store = globalForKv.kvStore ??= new Map<string, StoredItem>();
 
 export const kvLocal = {
   async get<T>(key: string): Promise<T | null> {
