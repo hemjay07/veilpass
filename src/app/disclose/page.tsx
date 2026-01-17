@@ -183,20 +183,31 @@ export default function DisclosePage() {
               {secret.fullClaims.map(claim => (
                 <div
                   key={claim.type}
+                  role="button"
+                  tabIndex={0}
                   onClick={() => toggleField(claim.type)}
-                  className={`p-3 rounded-lg border cursor-pointer transition ${
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      toggleField(claim.type);
+                    }
+                  }}
+                  className={`p-4 min-h-[56px] rounded-lg border cursor-pointer transition focus-ring ${
                     selectedFields.includes(claim.type)
                       ? "border-accent bg-accent/10"
                       : "border-zinc-800 hover:border-zinc-700"
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <Checkbox
-                        id={`field-${claim.type}`}
-                        checked={selectedFields.includes(claim.type)}
-                        onCheckedChange={() => toggleField(claim.type)}
-                      />
+                    <div className="flex items-center gap-4">
+                      <div className="flex items-center justify-center w-6 h-6">
+                        <Checkbox
+                          id={`field-${claim.type}`}
+                          checked={selectedFields.includes(claim.type)}
+                          onCheckedChange={() => toggleField(claim.type)}
+                          tabIndex={-1}
+                        />
+                      </div>
                       <Label htmlFor={`field-${claim.type}`} className="cursor-pointer font-medium">{claim.type}</Label>
                     </div>
                     {selectedFields.includes(claim.type) && (

@@ -167,20 +167,31 @@ export default function AttestPage() {
           {CLAIM_OPTIONS.map(({ type, label, description }) => (
             <div
               key={type}
+              role="button"
+              tabIndex={0}
               onClick={() => toggleClaim(type)}
-              className={`p-3 rounded-lg border cursor-pointer transition ${
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  toggleClaim(type);
+                }
+              }}
+              className={`p-4 min-h-[56px] rounded-lg border cursor-pointer transition focus-ring ${
                 selectedClaims.includes(type)
                   ? "border-accent bg-accent/10"
                   : "border-zinc-800 hover:border-zinc-700"
               }`}
             >
-              <div className="flex items-center gap-3">
-                <Checkbox
-                  id={`claim-${type}`}
-                  checked={selectedClaims.includes(type)}
-                  onCheckedChange={() => toggleClaim(type)}
-                />
-                <div>
+              <div className="flex items-center gap-4">
+                <div className="flex items-center justify-center w-6 h-6">
+                  <Checkbox
+                    id={`claim-${type}`}
+                    checked={selectedClaims.includes(type)}
+                    onCheckedChange={() => toggleClaim(type)}
+                    tabIndex={-1}
+                  />
+                </div>
+                <div className="flex-1">
                   <Label htmlFor={`claim-${type}`} className="cursor-pointer font-medium">{label}</Label>
                   <p className="text-sm text-zinc-400">{description}</p>
                 </div>

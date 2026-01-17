@@ -12,11 +12,11 @@ export function Header() {
           <span className="font-semibold text-lg">VeilPass</span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-6">
-          <Link href="/mint" className="text-zinc-400 hover:text-white transition">Mint</Link>
-          <Link href="/attest" className="text-zinc-400 hover:text-white transition">Attest</Link>
-          <Link href="/disclose" className="text-zinc-400 hover:text-white transition">Disclose</Link>
-          <Link href="/dashboard" className="text-zinc-400 hover:text-white transition">Dashboard</Link>
+        <nav className="hidden md:flex items-center gap-2">
+          <Link href="/mint" className="nav-link">Mint</Link>
+          <Link href="/attest" className="nav-link">Attest</Link>
+          <Link href="/disclose" className="nav-link">Disclose</Link>
+          <Link href="/dashboard" className="nav-link">Dashboard</Link>
         </nav>
 
         <WalletButton />

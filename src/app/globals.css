@@ -2,6 +2,95 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Custom dialog animations for polished UX */
+@keyframes zoom-in-95 {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes zoom-out-98 {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.98);
+  }
+}
+
+@keyframes toast-slide-in-bottom {
+  from {
+    opacity: 0;
+    transform: translateY(100%) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes toast-slide-in-top {
+  from {
+    opacity: 0;
+    transform: translateY(-100%) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes toast-fade-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+@layer utilities {
+  .animate-dialog-in {
+    animation: zoom-in-95 200ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .animate-dialog-out {
+    animation: zoom-out-98 150ms ease-out;
+  }
+
+  /* Toast animations with spring-physics feel */
+  .animate-toast-in-bottom {
+    animation: toast-slide-in-bottom 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .animate-toast-in-top {
+    animation: toast-slide-in-top 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .animate-toast-out {
+    animation: toast-fade-out 150ms ease-out;
+  }
+
+  /* Consistent focus ring utility using box-shadow pattern
+     - Uses box-shadow instead of ring for better border-radius support
+     - Respects element border-radius automatically
+     - No layout shift
+     - 2px ring with 2px offset (4px total from edge)
+  */
+  .focus-ring {
+    @apply outline-none;
+  }
+  .focus-ring:focus-visible {
+    box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 4px hsl(var(--ring));
+  }
+}
+
 @layer base {
   :root {
     --background: 0 0% 4%;
@@ -23,15 +112,52 @@
     --border: 0 0% 15%;
     --input: 0 0% 15%;
     --ring: 224 76% 33%;
-    --radius: 0.5rem;
+    /* Two-value border radius system for consistency */
+    --radius: 6px;     /* Buttons, inputs, small interactive elements */
+    --radius-lg: 12px; /* Cards, modals, large containers */
   }
 }
 
 @layer base {
   * {
     @apply border-border;
+    /* Remove iOS tap highlight to prevent blue flash on touch */
+    -webkit-tap-highlight-color: transparent;
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* Hover-capable-only hover effects - prevents stuck hover on touch devices */
+@layer utilities {
+  /* Nav link hover effect - only applies on devices that support hover */
+  .nav-link {
+    @apply text-zinc-400 transition px-3 py-2 min-h-[44px] flex items-center rounded-md;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .nav-link:hover {
+      @apply text-white bg-zinc-800/50;
+    }
+  }
+  /* Touch devices get active state instead */
+  @media (hover: none) {
+    .nav-link:active {
+      @apply text-white bg-zinc-800/50;
+    }
+  }
+
+  /* Interactive card hover effect - subtle shadow lift
+     - Only applies on hover-capable devices
+     - Uses shadow for lift effect (no layout shift)
+     - Smooth 200ms transition
+  */
+  .card-hover {
+    @apply transition-shadow duration-200;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .card-hover:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
   }
 }

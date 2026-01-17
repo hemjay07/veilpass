@@ -41,7 +41,7 @@ export default function DashboardPage() {
       <h2 className="text-xl font-semibold mb-4">Quick Actions</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         <Link href="/mint">
-          <Card className="bg-zinc-900 border-zinc-800 hover:border-zinc-700 transition cursor-pointer h-full">
+          <Card className="bg-zinc-900 border-zinc-800 card-hover cursor-pointer h-full">
             <CardHeader>
               <CardTitle className="text-lg">Mint New Token</CardTitle>
             </CardHeader>
@@ -52,7 +52,7 @@ export default function DashboardPage() {
         </Link>
 
         <Link href="/attest">
-          <Card className="bg-zinc-900 border-zinc-800 hover:border-zinc-700 transition cursor-pointer h-full">
+          <Card className="bg-zinc-900 border-zinc-800 card-hover cursor-pointer h-full">
             <CardHeader>
               <CardTitle className="text-lg">Generate Attestation</CardTitle>
             </CardHeader>
@@ -63,7 +63,7 @@ export default function DashboardPage() {
         </Link>
 
         <Link href="/disclose">
-          <Card className="bg-zinc-900 border-zinc-800 hover:border-zinc-700 transition cursor-pointer h-full">
+          <Card className="bg-zinc-900 border-zinc-800 card-hover cursor-pointer h-full">
             <CardHeader>
               <CardTitle className="text-lg">Create Disclosure</CardTitle>
             </CardHeader>

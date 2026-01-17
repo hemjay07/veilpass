@@ -45,9 +45,13 @@ const config: Config = {
         },
       },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        // Two-value system for consistency:
+        // - lg (12px): cards, modals, large containers
+        // - DEFAULT/md (6px): buttons, inputs, small interactive elements
+        lg: "var(--radius-lg)",
+        md: "var(--radius)",
+        sm: "var(--radius)",
+        DEFAULT: "var(--radius)",
       },
     },
   },
