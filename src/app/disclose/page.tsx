@@ -193,10 +193,11 @@ export default function DisclosePage() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <Checkbox
+                        id={`field-${claim.type}`}
                         checked={selectedFields.includes(claim.type)}
                         onCheckedChange={() => toggleField(claim.type)}
                       />
-                      <Label className="cursor-pointer font-medium">{claim.type}</Label>
+                      <Label htmlFor={`field-${claim.type}`} className="cursor-pointer font-medium">{claim.type}</Label>
                     </div>
                     {selectedFields.includes(claim.type) && (
                       <span className="text-accent text-sm">Will be disclosed</span>
@@ -215,21 +216,30 @@ export default function DisclosePage() {
               <CardTitle>Disclosure Options</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label>Expires in (days)</Label>
+                  <Label htmlFor="expiresInDays">Expires in (days)</Label>
                   <Input
+                    id="expiresInDays"
                     type="number"
                     min={1}
                     max={30}
                     value={expiresInDays}
-                    onChange={(e) => setExpiresInDays(Number(e.target.value))}
+                    onChange={(e) => {
+                      const value = Number(e.target.value);
+                      // Clamp value to valid range
+                      if (value < 1) setExpiresInDays(1);
+                      else if (value > 30) setExpiresInDays(30);
+                      else setExpiresInDays(value);
+                    }}
                     className="bg-zinc-800 border-zinc-700"
                   />
+                  <p className="text-xs text-zinc-500">Must be between 1 and 30 days</p>
                 </div>
                 <div className="space-y-2">
-                  <Label>Max Accesses</Label>
+                  <Label htmlFor="maxAccesses">Max Accesses</Label>
                   <Input
+                    id="maxAccesses"
                     type="number"
                     min={1}
                     max={100}

@@ -129,7 +129,12 @@ export default function AttestPage() {
 
             <Card className="bg-amber-500/10 border-amber-500/20">
               <CardContent className="pt-4">
-                <p className="text-amber-500 font-semibold mb-2">Save Your Secret File</p>
+                <p className="text-amber-500 font-semibold mb-2 flex items-center gap-2">
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                  </svg>
+                  Save Your Secret File
+                </p>
                 <p className="text-sm text-zinc-400 mb-4">
                   This file is required to create disclosures. It cannot be recovered if lost.
                 </p>
@@ -171,11 +176,12 @@ export default function AttestPage() {
             >
               <div className="flex items-center gap-3">
                 <Checkbox
+                  id={`claim-${type}`}
                   checked={selectedClaims.includes(type)}
                   onCheckedChange={() => toggleClaim(type)}
                 />
                 <div>
-                  <Label className="cursor-pointer font-medium">{label}</Label>
+                  <Label htmlFor={`claim-${type}`} className="cursor-pointer font-medium">{label}</Label>
                   <p className="text-sm text-zinc-400">{description}</p>
                 </div>
               </div>
