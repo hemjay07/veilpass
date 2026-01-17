@@ -31,7 +31,15 @@ export default function AttestPage() {
   };
 
   const handleGenerate = async () => {
-    if (!publicKey || !signMessage || selectedClaims.length === 0) return;
+    if (selectedClaims.length === 0) {
+      setError("Please select at least one claim");
+      return;
+    }
+
+    if (!publicKey || !signMessage) {
+      setError("Please connect your wallet first");
+      return;
+    }
 
     setLoading(true);
     setError(null);

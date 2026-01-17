@@ -7,6 +7,28 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Container } from "@/components/layout/Container";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+const ASSET_TYPES = [
+  { value: "REAL_ESTATE", label: "Real Estate" },
+  { value: "EQUITY", label: "Equity" },
+  { value: "DEBT", label: "Debt" },
+  { value: "COMMODITY", label: "Commodity" },
+  { value: "OTHER", label: "Other" },
+];
+
+const COMPLIANCE_LEVELS = [
+  { value: "NONE", label: "None" },
+  { value: "KYC", label: "KYC Required" },
+  { value: "ACCREDITED", label: "Accredited Investors Only" },
+  { value: "INSTITUTIONAL", label: "Institutional Only" },
+];
 
 export default function MintPage() {
   const { connected } = useWallet();
@@ -16,6 +38,8 @@ export default function MintPage() {
     name: "",
     symbol: "",
     totalSupply: "1000",
+    assetType: "REAL_ESTATE",
+    complianceLevel: "KYC",
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -123,6 +147,44 @@ export default function MintPage() {
                 required
                 className="bg-zinc-800 border-zinc-700"
               />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="assetType">Asset Type</Label>
+              <Select
+                value={formData.assetType}
+                onValueChange={(value) => setFormData({ ...formData, assetType: value })}
+              >
+                <SelectTrigger id="assetType" className="bg-zinc-800 border-zinc-700">
+                  <SelectValue placeholder="Select asset type" />
+                </SelectTrigger>
+                <SelectContent className="bg-zinc-800 border-zinc-700">
+                  {ASSET_TYPES.map((type) => (
+                    <SelectItem key={type.value} value={type.value}>
+                      {type.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="complianceLevel">Compliance Level</Label>
+              <Select
+                value={formData.complianceLevel}
+                onValueChange={(value) => setFormData({ ...formData, complianceLevel: value })}
+              >
+                <SelectTrigger id="complianceLevel" className="bg-zinc-800 border-zinc-700">
+                  <SelectValue placeholder="Select compliance level" />
+                </SelectTrigger>
+                <SelectContent className="bg-zinc-800 border-zinc-700">
+                  {COMPLIANCE_LEVELS.map((level) => (
+                    <SelectItem key={level.value} value={level.value}>
+                      {level.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
 
             <Button type="submit" disabled={loading} className="w-full bg-primary hover:bg-primary/90">
