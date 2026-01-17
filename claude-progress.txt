@@ -16,6 +16,72 @@
 - NEW: Hover utilities `.nav-link` and `.card-hover` for touch-friendly hover effects
 - NEW: Reduced motion support - global @media (prefers-reduced-motion: reduce) rules in globals.css
 - NEW: Skeleton component for loading states with motion-reduce support
+- NEW: Spinner component with linear easing and motion-reduce support
+- NEW: Typography: font smoothing, tracking-tight headings, tabular-nums utility
+- NEW: Landing page uses F-pattern layout (left-aligned content)
+
+## Session 9 - Design Revamp Continued (January 17, 2026)
+
+### Summary
+Continued design revamp features focusing on typography, icons, animations, and landing page optimization.
+Progress increased from 97/130 (74.6%) to 102/130 (78.5%).
+
+### Features Completed This Session
+- **Feature #96** - Loading State Polish ✅
+  - Was already implemented in previous session, marked as passing
+
+- **Feature #98** - Typography Hierarchy ✅
+  - Added font smoothing CSS to body (-webkit-font-smoothing, -moz-osx-font-smoothing)
+  - Added tracking-tight to h1, h2, h3 for proper letter-spacing
+  - Added tabular-nums utility class for numeric data
+  - Applied tabular-nums to attestation IDs, wallet addresses, and counters
+
+- **Feature #99** - Icon Consistency Audit ✅
+  - Added aria-hidden="true" to all decorative icons
+  - Fixed missing aria-hidden on warning icon in attest page
+  - Updated toast, dialog, select, checkbox icons
+
+- **Feature #100** - Claim Card Selection Animation ✅
+  - Replaced generic `transition` with specific `transition-colors duration-150 ease-out`
+  - Applied to both attest and disclose page claim/field cards
+
+- **Feature #101** - F-Pattern Visual Flow ✅
+  - Hero section: Left-aligned headline and CTAs, visual anchor on right
+  - Features section: Left-aligned header
+  - CTA section: Split layout with text left, action right
+
+- **Feature #102** - Above-the-Fold Value Prop ✅
+  - Reduced hero padding for compact above-fold layout
+  - Added uppercase tagline "Cryptographic Compliance Attestations"
+  - Added trust signal "Zero-knowledge proofs on Solana"
+  - Shortened copy for 5-second understanding
+
+### Code Changes
+1. **src/app/globals.css** - Font smoothing, tabular-nums, label-uppercase utilities
+2. **src/app/page.tsx** - F-pattern layout, above-fold optimization
+3. **src/app/attest/page.tsx** - tabular-nums, aria-hidden, transition-colors
+4. **src/app/disclose/page.tsx** - tabular-nums, transition-colors
+5. **src/app/verify/[id]/page.tsx** - tabular-nums
+6. **src/app/dashboard/page.tsx** - tabular-nums, skeleton loading for connecting state
+7. **src/app/mint/page.tsx** - tabular-nums, Spinner component
+8. **src/components/ui/spinner.tsx** - New component with motion-reduce
+9. **src/components/ui/toast.tsx** - aria-hidden on X icon
+10. **src/components/ui/dialog.tsx** - aria-hidden on X icon
+11. **src/components/ui/select.tsx** - aria-hidden on all icons
+12. **src/components/ui/checkbox.tsx** - aria-hidden on Check icon
+
+### Current Stats
+- Total: 130
+- Passing: 102
+- In Progress: 0
+- Blocked: 0
+- Percentage: 78.5%
+
+### Next Steps
+- Continue with remaining design revamp features (103-130)
+- Focus areas: color contrast, responsive improvements, interactive feedback
+
+---
 
 ## Session 8 - Accessibility Improvements (January 17, 2026)
 
