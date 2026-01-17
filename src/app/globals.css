@@ -2,6 +2,48 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * ============================================================
+ * VEILPASS COLOR PALETTE DOCUMENTATION
+ * ============================================================
+ *
+ * This project uses a strict, cohesive color palette.
+ * DO NOT use colors outside this system.
+ *
+ * PRIMARY (Brand - Trust/Security):
+ *   - primary (CSS var): #1E3A8A (blue-900) - Main CTA, logo, important actions
+ *   - blue-900: Direct usage for brand elements
+ *
+ * ACCENT/SUCCESS (Verified/Positive):
+ *   - accent (CSS var): #10B981 (emerald-500) - Success states, verification
+ *   - emerald-400/500: Verified badges, success messages, checkmarks
+ *   - emerald-500/20: Success backgrounds (20% opacity)
+ *
+ * WARNING (Attention/Caution):
+ *   - amber-400/500: Warning messages, important notices
+ *   - amber-500/10, amber-500/20: Warning backgrounds
+ *
+ * ERROR/DESTRUCTIVE:
+ *   - destructive (CSS var): #EF4444 (red-500) - Errors, destructive actions
+ *   - red-400/500: Error messages, invalid states
+ *   - red-500/10, red-500/20: Error backgrounds
+ *
+ * NEUTRALS (UI Foundation):
+ *   - zinc-950: Page background (#0A0A0B)
+ *   - zinc-900: Card/surface background (#18181B)
+ *   - zinc-800: Input backgrounds, elevated surfaces (#27272A)
+ *   - zinc-700: Borders, dividers (#3F3F46)
+ *   - zinc-500: Muted text, captions (#71717A)
+ *   - zinc-400: Secondary text (#A1A1AA)
+ *   - zinc-50: Primary text, headings (#FAFAFA)
+ *
+ * FORBIDDEN COLORS (DO NOT USE):
+ *   - gray-*, slate-*, stone-*, neutral-* (use zinc-* instead)
+ *   - Any color not listed above
+ *
+ * ============================================================
+ */
+
 /* Custom dialog animations for polished UX */
 @keyframes zoom-in-95 {
   from {
