@@ -296,6 +296,7 @@ export default function DisclosePage() {
                 disabled={loading}
                 className="w-full bg-primary hover:bg-primary/90"
                 aria-describedby={error && secret ? "disclose-error" : undefined}
+                aria-busy={loading}
               >
                 {loading ? "Creating..." : "Create Disclosure Link"}
               </Button>

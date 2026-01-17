@@ -217,6 +217,7 @@ export default function AttestPage() {
             disabled={loading || selectedClaims.length === 0}
             className="w-full bg-primary hover:bg-primary/90"
             aria-describedby={error ? "attest-error" : undefined}
+            aria-busy={loading}
           >
             {loading ? "Generating..." : "Generate Attestation"}
           </Button>

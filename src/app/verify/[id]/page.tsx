@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Container } from "@/components/layout/Container";
 import type { VerificationResult } from "@/types";
 
@@ -34,9 +35,27 @@ export default function VerifyPage() {
   if (loading) {
     return (
       <Container className="max-w-2xl">
-        <Card className="bg-zinc-900 border-zinc-800">
-          <CardContent className="py-8 text-center">
-            <p className="text-zinc-400">Loading verification...</p>
+        <Card className="bg-zinc-900 border-zinc-800" aria-busy="true" aria-label="Loading verification">
+          <CardHeader>
+            <Skeleton className="h-6 w-48" />
+            <Skeleton className="h-4 w-64 mt-2" />
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div>
+              <Skeleton className="h-4 w-24 mb-2" />
+              <Skeleton className="h-5 w-full" />
+            </div>
+            <div>
+              <Skeleton className="h-4 w-32 mb-2" />
+              <div className="space-y-2">
+                <Skeleton className="h-20 w-full rounded-lg" />
+                <Skeleton className="h-20 w-full rounded-lg" />
+              </div>
+            </div>
+            <div className="flex justify-between">
+              <Skeleton className="h-4 w-20" />
+              <Skeleton className="h-4 w-32" />
+            </div>
           </CardContent>
         </Card>
       </Container>

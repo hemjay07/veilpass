@@ -187,7 +187,7 @@ export default function MintPage() {
               </Select>
             </div>
 
-            <Button type="submit" disabled={loading} className="w-full bg-primary hover:bg-primary/90">
+            <Button type="submit" disabled={loading} className="w-full bg-primary hover:bg-primary/90" aria-busy={loading}>
               {loading ? "Creating Token..." : "Create Token"}
             </Button>
           </form>
