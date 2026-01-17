@@ -25,6 +25,83 @@
 - NEW: JourneySteps horizontal stepper visualization
 - NEW: AuthenticitySeal on verify page with timestamp and proof hash
 - NEW: Consistent spacing scale with CSS custom properties
+- NEW: ClaimBadge component with icons for each claim type (Lucide icons)
+- NEW: HelpTooltip component for contextual help (?) icons
+- NEW: Professional error pages: not-found.tsx, error.tsx, global-error.tsx
+- NEW: DisclosureAnalytics component on dashboard
+- NEW: API endpoint GET /api/user/disclosures?wallet= for user's disclosures
+- NEW: PageLayout and PageSection components for consistent layout
+- NEW: Container max-width 1280px configured in tailwind.config.ts
+
+---
+
+## Session 12 - Strategic Design Features (January 17, 2026)
+
+### Summary
+Implemented 5 strategic design features (117-121) focusing on visual polish and user guidance.
+Progress increased from 116/130 (89.2%) to 121/130 (93.1%).
+
+### Features Completed This Session
+- **Feature #117** - Claim Badges with Icons ✅
+  - Created ClaimBadge component with Lucide icons
+  - KYC_VERIFIED: UserCheck, AML_PASSED: ShieldCheck, ACCREDITED_INVESTOR: BadgeCheck
+  - JURISDICTION_COMPLIANT: Globe, SOURCE_OF_FUNDS_VERIFIED: FileCheck
+  - Updated attest, disclose, and verify pages to use icons
+  - Added icons to claim selector rows
+
+- **Feature #118** - Contextual Help Tooltips ✅
+  - Created HelpTooltip component with (?) icon
+  - 10 technical term definitions: attestation, selective-disclosure, zero-knowledge, etc.
+  - Mobile-friendly: tap to open/close with backdrop
+  - Desktop: positioned tooltips with arrows
+  - Added to landing, attest, disclose, verify pages
+
+- **Feature #119** - Professional Error Pages ✅
+  - Created not-found.tsx (404) with VeilPass branding
+  - Created error.tsx (runtime errors) with Try Again button
+  - Created global-error.tsx (critical errors) - minimal standalone page
+  - Security assurance message about data safety
+  - Navigation options: Go Home, View Dashboard
+
+- **Feature #120** - Disclosure Analytics Display ✅
+  - Created DisclosureAnalytics component for dashboard
+  - Shows: views (current/max), remaining accesses, expiration countdown, created date
+  - Status badges: Expired, Max views reached
+  - Copy link and open verification buttons per disclosure
+  - Created GET /api/user/disclosures endpoint
+  - Added disclosure indexing by discloser wallet in kv.ts
+
+- **Feature #121** - Global Layout System ✅
+  - Configured Tailwind container: max-width 1280px, responsive padding
+  - Created PageLayout component with width presets (narrow, default, wide, full)
+  - Created PageSection and PageHeader components
+  - Updated Container with cn() and noPadding option
+
+### Code Changes This Session
+1. **src/components/ui/claim-badge.tsx** - New claim badge component with icons
+2. **src/components/ui/help-tooltip.tsx** - New help tooltip component
+3. **src/app/not-found.tsx** - New 404 error page
+4. **src/app/error.tsx** - New runtime error page
+5. **src/app/global-error.tsx** - New critical error page
+6. **src/components/ui/disclosure-analytics.tsx** - New analytics component
+7. **src/app/api/user/disclosures/route.ts** - New API endpoint
+8. **src/lib/kv.ts** - Added disclosure indexing and getDisclosuresByDiscloser
+9. **src/components/layout/PageLayout.tsx** - New layout components
+10. **src/components/layout/Container.tsx** - Enhanced with cn() utility
+11. **tailwind.config.ts** - Container configuration
+
+### Current Stats
+- Total: 130
+- Passing: 121
+- In Progress: 0
+- Blocked: 0
+- Percentage: 93.1%
+
+### Next Steps
+- Continue with remaining features (122-130)
+- Focus areas: responsive improvements, security polish, final touches
+
+---
 
 ## Session 11 - User Experience Features (January 17, 2026)
 
