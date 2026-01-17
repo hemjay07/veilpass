@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { TrustBadges } from "@/components/ui/trust-badges";
+import { PrivacyExplainer } from "@/components/ui/privacy-explainer";
 import { Container } from "@/components/layout/Container";
 
 export default function Home() {
@@ -11,7 +13,7 @@ export default function Home() {
           - F-pattern with left-aligned content
           - Trust signal for immediate credibility
       */}
-      <section className="py-12 md:py-16">
+      <section className="py-16 md:py-20">
         <Container className="max-w-4xl">
           <div className="grid md:grid-cols-[1fr,auto] gap-8 items-center">
             {/* Left side - Primary content (F-pattern vertical) */}
@@ -29,7 +31,7 @@ export default function Home() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 mb-6">
                 <Link href="/attest">
-                  <Button size="lg" className="w-full sm:w-auto bg-primary hover:bg-primary/90">
+                  <Button variant="cta" size="lg" className="w-full sm:w-auto">
                     Generate Attestation
                   </Button>
                 </Link>
@@ -39,11 +41,8 @@ export default function Home() {
                   </Button>
                 </Link>
               </div>
-              {/* Trust signal */}
-              <p className="text-sm text-zinc-500 flex items-center gap-2">
-                <span className="w-2 h-2 bg-accent rounded-full" aria-hidden="true"></span>
-                Zero-knowledge proofs on Solana
-              </p>
+              {/* Trust badges - credibility markers above the fold */}
+              <TrustBadges />
             </div>
             {/* Right side - Visual anchor */}
             <div className="hidden md:flex items-center justify-center">
@@ -59,7 +58,7 @@ export default function Home() {
           - Left-aligned section header
           - Cards flow naturally in reading order
       */}
-      <section className="py-16 bg-zinc-900/50">
+      <section className="py-20 md:py-24 bg-zinc-900/50">
         <Container>
           <h2 className="text-2xl md:text-3xl font-bold text-left mb-12">
             How VeilPass Works
@@ -112,11 +111,24 @@ export default function Home() {
         </Container>
       </section>
 
+      {/* Privacy Explainer - Educational accordion below fold */}
+      <section className="py-20 md:py-24">
+        <Container>
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-4">
+            How Privacy Works
+          </h2>
+          <p className="text-zinc-400 text-center mb-12 max-w-xl mx-auto">
+            Understand how VeilPass protects your data while enabling compliance verification
+          </p>
+          <PrivacyExplainer />
+        </Container>
+      </section>
+
       {/* CTA Section - F-pattern endpoint:
           - Left-aligned for natural eye movement
           - Single strong CTA at F-pattern termination
       */}
-      <section className="py-16">
+      <section className="py-20 md:py-24 bg-zinc-900/50">
         <Container className="max-w-4xl">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div className="text-left">
@@ -128,7 +140,7 @@ export default function Home() {
               </p>
             </div>
             <Link href="/attest">
-              <Button size="lg" className="w-full md:w-auto bg-primary hover:bg-primary/90 whitespace-nowrap">
+              <Button variant="cta" size="lg" className="w-full md:w-auto whitespace-nowrap">
                 Get Started
               </Button>
             </Link>

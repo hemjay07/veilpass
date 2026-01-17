@@ -216,7 +216,9 @@ export default function AttestPage() {
           <Button
             onClick={handleGenerate}
             disabled={loading || selectedClaims.length === 0}
-            className="w-full bg-primary hover:bg-primary/90"
+            variant="cta"
+            size="lg"
+            className="w-full"
             aria-describedby={error ? "attest-error" : undefined}
             aria-busy={loading}
           >

@@ -58,6 +58,19 @@
   }
 }
 
+/* Pulse animation that runs once on page load for trust indicator */
+@keyframes pulse-once {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+.animate-pulse-once {
+  animation: pulse-once 1.5s ease-in-out 1;
+}
+
 @layer utilities {
   /* Dialog animations with reduced motion support */
   .animate-dialog-in {
@@ -127,6 +140,22 @@
     /* Two-value border radius system for consistency */
     --radius: 6px;     /* Buttons, inputs, small interactive elements */
     --radius-lg: 12px; /* Cards, modals, large containers */
+
+    /* Spacing scale for consistent "breathing room" whitespace
+     * Uses Tailwind spacing values for alignment:
+     * - space-xs (4): 16px - Tight spacing (inline elements, icons)
+     * - space-sm (6): 24px - Between related elements
+     * - space-md (8): 32px - Between subsections, card padding
+     * - space-lg (12): 48px - Between sections
+     * - space-xl (16): 64px - Major section padding
+     * - space-2xl (24): 96px - Hero/CTA breathing room
+     */
+    --space-xs: 1rem;    /* 16px */
+    --space-sm: 1.5rem;  /* 24px */
+    --space-md: 2rem;    /* 32px */
+    --space-lg: 3rem;    /* 48px */
+    --space-xl: 4rem;    /* 64px */
+    --space-2xl: 6rem;   /* 96px */
   }
 }
 

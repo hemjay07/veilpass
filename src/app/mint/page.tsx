@@ -188,7 +188,7 @@ export default function MintPage() {
               </Select>
             </div>
 
-            <Button type="submit" disabled={loading} className="w-full bg-primary hover:bg-primary/90" aria-busy={loading}>
+            <Button type="submit" disabled={loading} variant="cta" size="lg" className="w-full" aria-busy={loading}>
               {loading ? (
                 <>
                   <Spinner size="sm" />

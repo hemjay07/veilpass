@@ -53,6 +53,34 @@ const config: Config = {
         sm: "var(--radius)",
         DEFAULT: "var(--radius)",
       },
+      spacing: {
+        // Spacing scale for "breathing room" whitespace (supplements Tailwind's scale)
+        // Maps to CSS variables for consistency:
+        // - Tailwind 4 = 16px (space-xs)
+        // - Tailwind 6 = 24px (space-sm)
+        // - Tailwind 8 = 32px (space-md)
+        // - Tailwind 12 = 48px (space-lg)
+        // - Tailwind 16 = 64px (space-xl)
+        // - Tailwind 24 = 96px (space-2xl)
+        // These semantic names can be used instead of numeric values:
+        "section": "var(--space-xl)",      // 64px - py-section for major sections
+        "subsection": "var(--space-lg)",   // 48px - Between subsections
+        "card-pad": "var(--space-sm)",     // 24px - Card internal padding
+      },
+      keyframes: {
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+      },
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],

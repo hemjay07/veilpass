@@ -295,7 +295,9 @@ export default function DisclosePage() {
               <Button
                 onClick={handleCreate}
                 disabled={loading}
-                className="w-full bg-primary hover:bg-primary/90"
+                variant="cta"
+                size="lg"
+                className="w-full"
                 aria-describedby={error && secret ? "disclose-error" : undefined}
                 aria-busy={loading}
               >
