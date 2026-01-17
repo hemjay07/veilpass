@@ -14,6 +14,56 @@
 - NEW: Two-value border radius system: --radius (6px) for buttons/inputs, --radius-lg (12px) for cards
 - NEW: Focus ring utility class `.focus-ring` for consistent keyboard focus states
 - NEW: Hover utilities `.nav-link` and `.card-hover` for touch-friendly hover effects
+- NEW: Reduced motion support - global @media (prefers-reduced-motion: reduce) rules in globals.css
+- NEW: Skeleton component for loading states with motion-reduce support
+
+## Session 8 - Accessibility Improvements (January 17, 2026)
+
+### Summary
+Continued design revamp features focusing on accessibility and loading states.
+Progress increased from 90/130 (69.2%) to 97/130 (74.6%).
+
+### Features Completed This Session
+- **Feature #91** - Focus Ring Consistency ✅
+  - Enhanced interactive card rows in attest/disclose pages with focus-ring class
+  - Added role="button", tabIndex, and keyboard handlers (Enter/Space)
+  - Added tabIndex={-1} to nested checkboxes to prevent double-tabbing
+
+- **Feature #95** - Form Error State Accessibility ✅
+  - Added error icon to verify page error state
+  - Verified all error states have role="alert", aria-describedby, and icons
+
+- **Feature #96** - Loading State Polish ✅
+  - Added aria-busy={loading} to all submit buttons
+  - Created Skeleton component with motion-reduce support
+  - Added skeleton loading UI to verify page
+
+- **Feature #97** - Reduced Motion Support ✅
+  - Added prefers-reduced-motion media queries to globals.css
+  - Specific rules for dialog and toast animations
+  - Global blanket rule to disable all transitions/animations
+  - Verified skeleton, toast, spinner already have motion-reduce classes
+
+### Code Changes
+1. **src/app/globals.css** - Added reduced motion support rules
+2. **src/app/attest/page.tsx** - Added focus-ring, role, keyboard handlers, aria-busy
+3. **src/app/disclose/page.tsx** - Added focus-ring, role, keyboard handlers, aria-busy
+4. **src/app/mint/page.tsx** - Added aria-busy to submit button
+5. **src/app/verify/[id]/page.tsx** - Added skeleton loading, error icon
+6. **src/components/ui/skeleton.tsx** - New component with motion-reduce support
+
+### Current Stats
+- Total: 130
+- Passing: 97
+- In Progress: 0
+- Blocked: 0
+- Percentage: 74.6%
+
+### Next Steps
+- Continue with remaining design revamp features (98-130)
+- Focus areas: responsive typography, color contrast, additional accessibility
+
+---
 
 ## Session 7 - Design Revamp Features (January 17, 2026)
 
