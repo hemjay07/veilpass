@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,8 +8,17 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";
+import { ProgressTracker, type ProgressStep } from "@/components/ui/progress-tracker";
+import { EmptyState } from "@/components/ui/empty-state";
 import { Container } from "@/components/layout/Container";
 import type { AttestationSecret, ClaimType } from "@/types";
+
+const DISCLOSE_STEPS: ProgressStep[] = [
+  { id: "connect", name: "Connect Wallet" },
+  { id: "upload", name: "Upload Secret" },
+  { id: "select", name: "Select Fields" },
+  { id: "complete", name: "Share Link" },
+];
 
 export default function DisclosePage() {
   const { connected, publicKey, signMessage } = useWallet();
@@ -21,6 +30,15 @@ export default function DisclosePage() {
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<{ disclosureId: string; verifyUrl: string } | null>(null);
   const [copied, setCopied] = useState(false);
+
+  // Calculate current step
+  const currentStep = useMemo(() => {
+    if (result) return 3; // Share Link
+    if (selectedFields.length > 0) return 2; // Select Fields
+    if (secret) return 2; // Select Fields (waiting for selection)
+    if (connected) return 1; // Upload Secret
+    return 0; // Connect Wallet
+  }, [connected, secret, selectedFields.length, result]);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -82,6 +100,9 @@ export default function DisclosePage() {
       }
 
       setResult(data.data);
+
+      // Dispatch event for onboarding checklist
+      window.dispatchEvent(new CustomEvent("veilpass:disclosure:complete"));
     } catch (err: any) {
       setError(err.message || "Failed to create disclosure");
     } finally {
@@ -99,72 +120,93 @@ export default function DisclosePage() {
 
   if (!connected) {
     return (
-      <Container className="max-w-2xl">
-        <Card className="bg-zinc-900 border-zinc-800">
-          <CardHeader>
-            <CardTitle>Connect Your Wallet</CardTitle>
-            <CardDescription>
-              Connect your wallet to create a disclosure from your attestation.
-            </CardDescription>
-          </CardHeader>
-        </Card>
-      </Container>
+      <>
+        <ProgressTracker steps={DISCLOSE_STEPS} currentStep={currentStep} />
+        <Container className="max-w-2xl">
+          <EmptyState
+            variant="custom"
+            icon="shield"
+            title="Create a Selective Disclosure"
+            description="Connect your wallet to share specific compliance claims with auditors. You choose exactly what they see &mdash; nothing more."
+            subtext="You stay in control of your data"
+          />
+        </Container>
+      </>
     );
   }
 
   if (result) {
     return (
-      <Container className="max-w-2xl">
-        <Card className="bg-zinc-900 border-zinc-800">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <span className="text-accent">&#x2713;</span>
-              Disclosure Created
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <div>
-              <p className="text-sm text-zinc-400">Shareable Link</p>
-              <div className="flex gap-2 mt-1">
-                <Input value={result.verifyUrl} readOnly className="bg-zinc-800 border-zinc-700 font-mono text-sm tabular-nums" />
-                <Button onClick={copyToClipboard} variant="outline">
-                  {copied ? "Copied!" : "Copy"}
-                </Button>
+      <>
+        <ProgressTracker steps={DISCLOSE_STEPS} currentStep={currentStep} />
+        <Container className="max-w-2xl">
+          <Card className="bg-zinc-900 border-zinc-800">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <span className="text-accent">&#x2713;</span>
+                Disclosure Created
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div>
+                <p className="text-sm text-zinc-400">Shareable Link</p>
+                <div className="flex gap-2 mt-1">
+                  <Input value={result.verifyUrl} readOnly className="bg-zinc-800 border-zinc-700 font-mono text-sm tabular-nums" />
+                  <Button onClick={copyToClipboard} variant="outline">
+                    {copied ? "Copied!" : "Copy"}
+                  </Button>
+                </div>
               </div>
-            </div>
 
-            <p className="text-sm text-zinc-400">
-              Share this link with auditors to verify your compliance. They will only see the fields you selected.
-            </p>
+              {/* Next Action Prompt */}
+              <Card className="bg-primary/10 border-primary/20">
+                <CardContent className="pt-4">
+                  <p className="text-primary font-semibold mb-2 flex items-center gap-2">
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                      <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
+                    </svg>
+                    Share with Your Auditor
+                  </p>
+                  <p className="text-sm text-zinc-400 mb-4">
+                    Send the link above to your auditor or compliance reviewer. They&apos;ll be able to cryptographically verify your claims without seeing your personal data.
+                  </p>
+                  <Button onClick={copyToClipboard} variant="cta" className="w-full">
+                    {copied ? "Copied to Clipboard!" : "Copy Link to Share"}
+                  </Button>
+                </CardContent>
+              </Card>
 
-            <Button onClick={() => { setResult(null); setSecret(null); setSelectedFields([]); }} variant="outline" className="w-full">
-              Create Another Disclosure
-            </Button>
-          </CardContent>
-        </Card>
-      </Container>
+              <Button onClick={() => { setResult(null); setSecret(null); setSelectedFields([]); }} variant="outline" className="w-full">
+                Create Another Disclosure
+              </Button>
+            </CardContent>
+          </Card>
+        </Container>
+      </>
     );
   }
 
   return (
-    <Container className="max-w-2xl">
-      <h1 className="text-3xl font-bold mb-2">Create Disclosure</h1>
-      <p className="text-zinc-400 mb-8">Select which compliance claims to share with auditors</p>
+    <>
+      <ProgressTracker steps={DISCLOSE_STEPS} currentStep={currentStep} />
+      <Container className="max-w-2xl">
+        <h1 className="text-3xl font-bold mb-2">Create Disclosure</h1>
+        <p className="text-zinc-400 mb-8">Select which compliance claims to share with auditors</p>
 
-      <div className="space-y-6">
-        {/* File Upload */}
-        <Card className="bg-zinc-900 border-zinc-800">
-          <CardHeader>
-            <CardTitle>Upload Secret File</CardTitle>
-            <CardDescription>Upload the secret file from your attestation</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <Input
-              type="file"
-              accept=".json"
-              onChange={handleFileUpload}
-              className="bg-zinc-800 border-zinc-700"
-              aria-describedby={error && !secret ? "file-error" : undefined}
+        <div className="space-y-6">
+          {/* File Upload */}
+          <Card className="bg-zinc-900 border-zinc-800">
+            <CardHeader>
+              <CardTitle>Upload Secret File</CardTitle>
+              <CardDescription>Upload the secret file from your attestation</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <Input
+                type="file"
+                accept=".json"
+                onChange={handleFileUpload}
+                className="bg-zinc-800 border-zinc-700"
+                aria-describedby={error && !secret ? "file-error" : undefined}
               aria-invalid={error && !secret ? true : undefined}
             />
             {secret && (
@@ -313,7 +355,8 @@ export default function DisclosePage() {
             </CardContent>
           </Card>
         )}
-      </div>
-    </Container>
+        </div>
+      </Container>
+    </>
   );
 }

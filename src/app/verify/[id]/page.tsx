@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AuthenticitySeal } from "@/components/ui/authenticity-seal";
+import { VeilReveal } from "@/components/ui/veil-reveal";
 import { Container } from "@/components/layout/Container";
 import type { VerificationResult } from "@/types";
 
@@ -106,21 +107,23 @@ export default function VerifyPage() {
           <div>
             <p className="text-sm text-zinc-400 mb-2">Disclosed Claims</p>
             <div className="space-y-2">
-              {Object.entries(result.disclosedData || {}).map(([key, value]: [string, any]) => (
-                <div key={key} className="p-3 bg-zinc-800 rounded-lg">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <p className="font-medium">{key}</p>
-                      <p className="text-sm text-zinc-400">Provider: {value.provider}</p>
+              {Object.entries(result.disclosedData || {}).map(([key, value]: [string, any], index) => (
+                <VeilReveal key={key} delay={300 + (index * 150)}>
+                  <div className="p-3 bg-zinc-800 rounded-lg border border-transparent hover:border-zinc-700 transition-colors">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <p className="font-medium">{key}</p>
+                        <p className="text-sm text-zinc-400">Provider: {value.provider}</p>
+                      </div>
+                      <span className="px-2 py-1 bg-accent/20 text-accent rounded text-sm">
+                        {value.value === true ? "Verified" : String(value.value)}
+                      </span>
                     </div>
-                    <span className="px-2 py-1 bg-accent/20 text-accent rounded text-sm">
-                      {value.value === true ? "Verified" : String(value.value)}
-                    </span>
+                    <p className="text-xs text-zinc-500 mt-1">
+                      Issued: {new Date(value.issuedAt).toLocaleDateString()}
+                    </p>
                   </div>
-                  <p className="text-xs text-zinc-500 mt-1">
-                    Issued: {new Date(value.issuedAt).toLocaleDateString()}
-                  </p>
-                </div>
+                </VeilReveal>
               ))}
             </div>
           </div>

@@ -5,6 +5,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { OnboardingChecklist } from "@/components/ui/onboarding-checklist";
+import { EmptyState } from "@/components/ui/empty-state";
 import { Container } from "@/components/layout/Container";
 
 export default function DashboardPage() {
@@ -51,19 +53,7 @@ export default function DashboardPage() {
   if (!connected) {
     return (
       <Container className="max-w-2xl">
-        <Card className="bg-zinc-900 border-zinc-800">
-          <CardHeader>
-            <CardTitle>Connect Your Wallet</CardTitle>
-            <CardDescription>
-              Connect your Solana wallet to access the dashboard and manage your attestations.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-zinc-400 text-sm">
-              Use the Connect Wallet button in the header to get started.
-            </p>
-          </CardContent>
-        </Card>
+        <EmptyState variant="connect-wallet" />
       </Container>
     );
   }
@@ -76,6 +66,9 @@ export default function DashboardPage() {
         <p className="text-sm text-zinc-400">Connected Wallet</p>
         <p className="font-mono text-sm tabular-nums">{publicKey?.toBase58()}</p>
       </div>
+
+      {/* Onboarding Checklist for new users */}
+      <OnboardingChecklist />
 
       <h2 className="text-xl font-semibold mb-4">Quick Actions</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">

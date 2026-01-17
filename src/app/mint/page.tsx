@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -83,7 +84,7 @@ export default function MintPage() {
               Token Created (Demo)
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-6">
             <div>
               <p className="text-sm text-zinc-400">Token Address (Demo)</p>
               <p className="font-mono text-sm break-all tabular-nums">{success}</p>
@@ -91,8 +92,29 @@ export default function MintPage() {
             <p className="text-amber-500 text-sm">
               Note: This is a demo. In production, this would create a real token on Solana.
             </p>
-            <Button onClick={() => setSuccess(null)} variant="outline">
-              Create Another
+
+            {/* Next Action Prompt */}
+            <Card className="bg-primary/10 border-primary/20">
+              <CardContent className="pt-4">
+                <p className="text-primary font-semibold mb-2 flex items-center gap-2">
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clipRule="evenodd" />
+                  </svg>
+                  Next Step
+                </p>
+                <p className="text-sm text-zinc-400 mb-4">
+                  Generate compliance attestations for your token holders to enable privacy-preserving verification.
+                </p>
+                <Link href="/attest">
+                  <Button variant="cta" className="w-full">
+                    Generate Attestation
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+
+            <Button onClick={() => setSuccess(null)} variant="outline" className="w-full">
+              Create Another Token
             </Button>
           </CardContent>
         </Card>

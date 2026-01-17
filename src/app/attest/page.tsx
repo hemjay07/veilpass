@@ -1,14 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import Link from "next/link";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";
+import { ProgressTracker, type ProgressStep } from "@/components/ui/progress-tracker";
+import { EmptyState } from "@/components/ui/empty-state";
 import { Container } from "@/components/layout/Container";
 import type { ClaimType, Attestation, AttestationSecret } from "@/types";
+
+const ATTEST_STEPS: ProgressStep[] = [
+  { id: "connect", name: "Connect Wallet" },
+  { id: "select", name: "Select Claims" },
+  { id: "complete", name: "Download Secret" },
+];
 
 const CLAIM_OPTIONS: { type: ClaimType; label: string; description: string }[] = [
   { type: "KYC_VERIFIED", label: "KYC Verified", description: "Identity verification completed" },
@@ -24,6 +33,13 @@ export default function AttestPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<{ attestation: Attestation; secret: AttestationSecret } | null>(null);
+
+  // Calculate current step
+  const currentStep = useMemo(() => {
+    if (result) return 2; // Download Secret
+    if (connected) return 1; // Select Claims
+    return 0; // Connect Wallet
+  }, [connected, result]);
 
   const toggleClaim = (claim: ClaimType) => {
     setSelectedClaims(prev =>
@@ -68,6 +84,9 @@ export default function AttestPage() {
       }
 
       setResult(data.data);
+
+      // Dispatch event for onboarding checklist
+      window.dispatchEvent(new CustomEvent("veilpass:attestation:complete"));
     } catch (err: any) {
       setError(err.message || "Failed to generate attestation");
     } finally {
@@ -88,78 +107,105 @@ export default function AttestPage() {
 
   if (!connected) {
     return (
-      <Container className="max-w-2xl">
-        <Card className="bg-zinc-900 border-zinc-800">
-          <CardHeader>
-            <CardTitle>Connect Your Wallet</CardTitle>
-            <CardDescription>
-              Connect your wallet to generate an attestation for your compliance claims.
-            </CardDescription>
-          </CardHeader>
-        </Card>
-      </Container>
+      <>
+        <ProgressTracker steps={ATTEST_STEPS} currentStep={currentStep} />
+        <Container className="max-w-2xl">
+          <EmptyState
+            variant="custom"
+            icon="document"
+            title="Generate Your Attestation"
+            description="Connect your wallet to create a cryptographic proof of your compliance status. Your data stays private while you prove you&apos;re compliant."
+            subtext="Privacy-preserving compliance verification"
+          />
+        </Container>
+      </>
     );
   }
 
   if (result) {
     return (
-      <Container className="max-w-2xl">
-        <Card className="bg-zinc-900 border-zinc-800">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <span className="text-accent">&#x2713;</span>
-              Attestation Generated
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <div>
-              <p className="text-sm text-zinc-400">Attestation ID</p>
-              <p className="font-mono text-sm tabular-nums">{result.attestation.id}</p>
-            </div>
-
-            <div>
-              <p className="text-sm text-zinc-400">Claims</p>
-              <div className="flex flex-wrap gap-2 mt-1">
-                {result.attestation.claims.map(claim => (
-                  <span key={claim} className="px-2 py-1 bg-accent/20 text-accent rounded text-sm">
-                    {claim}
-                  </span>
-                ))}
+      <>
+        <ProgressTracker steps={ATTEST_STEPS} currentStep={currentStep} />
+        <Container className="max-w-2xl">
+          <Card className="bg-zinc-900 border-zinc-800">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <span className="text-accent">&#x2713;</span>
+                Attestation Generated
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div>
+                <p className="text-sm text-zinc-400">Attestation ID</p>
+                <p className="font-mono text-sm tabular-nums">{result.attestation.id}</p>
               </div>
-            </div>
 
-            <Card className="bg-amber-500/10 border-amber-500/20">
-              <CardContent className="pt-4">
-                <p className="text-amber-500 font-semibold mb-2 flex items-center gap-2">
-                  <svg className="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-                    <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                  </svg>
-                  Save Your Secret File
-                </p>
-                <p className="text-sm text-zinc-400 mb-4">
-                  This file is required to create disclosures. It cannot be recovered if lost.
-                </p>
-                <Button onClick={downloadSecret} className="bg-amber-500 hover:bg-amber-600 text-black">
-                  Download Secret File
-                </Button>
-              </CardContent>
-            </Card>
+              <div>
+                <p className="text-sm text-zinc-400">Claims</p>
+                <div className="flex flex-wrap gap-2 mt-1">
+                  {result.attestation.claims.map(claim => (
+                    <span key={claim} className="px-2 py-1 bg-accent/20 text-accent rounded text-sm">
+                      {claim}
+                    </span>
+                  ))}
+                </div>
+              </div>
 
-            <Button onClick={() => { setResult(null); setSelectedClaims([]); }} variant="outline" className="w-full">
-              Create Another
-            </Button>
-          </CardContent>
-        </Card>
-      </Container>
+              <Card className="bg-amber-500/10 border-amber-500/20">
+                <CardContent className="pt-4">
+                  <p className="text-amber-500 font-semibold mb-2 flex items-center gap-2">
+                    <svg className="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                      <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                    </svg>
+                    Save Your Secret File
+                  </p>
+                  <p className="text-sm text-zinc-400 mb-4">
+                    This file is required to create disclosures. It cannot be recovered if lost.
+                  </p>
+                  <Button onClick={downloadSecret} className="bg-amber-500 hover:bg-amber-600 text-black">
+                    Download Secret File
+                  </Button>
+                </CardContent>
+              </Card>
+
+              {/* Next Action Prompt */}
+              <Card className="bg-primary/10 border-primary/20">
+                <CardContent className="pt-4">
+                  <p className="text-primary font-semibold mb-2 flex items-center gap-2">
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clipRule="evenodd" />
+                    </svg>
+                    Next Step
+                  </p>
+                  <p className="text-sm text-zinc-400 mb-4">
+                    Create a disclosure to share your verification with auditors. They&apos;ll only see the claims you choose.
+                  </p>
+                  <Link href="/disclose">
+                    <Button variant="cta" className="w-full">
+                      Create Disclosure
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
+
+              <Button onClick={() => { setResult(null); setSelectedClaims([]); }} variant="outline" className="w-full">
+                Create Another Attestation
+              </Button>
+            </CardContent>
+          </Card>
+        </Container>
+      </>
     );
   }
 
   return (
-    <Container className="max-w-2xl">
-      <h1 className="text-3xl font-bold mb-2">Generate Attestation</h1>
-      <p className="text-zinc-400 mb-8">Select your compliance claims and generate a cryptographic attestation</p>
+    <>
+      <ProgressTracker steps={ATTEST_STEPS} currentStep={currentStep} />
+      <Container className="max-w-2xl">
+        <h1 className="text-3xl font-bold mb-2">Generate Attestation</h1>
+        <p className="text-zinc-400 mb-8">Select your compliance claims and generate a cryptographic attestation</p>
 
-      <Card className="bg-zinc-900 border-zinc-800">
+        <Card className="bg-zinc-900 border-zinc-800">
         <CardHeader>
           <CardTitle>Select Claims</CardTitle>
           <CardDescription>Choose which compliance claims to include in your attestation</CardDescription>
@@ -237,6 +283,7 @@ export default function AttestPage() {
           )}
         </CardContent>
       </Card>
-    </Container>
+      </Container>
+    </>
   );
 }

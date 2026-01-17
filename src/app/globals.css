@@ -114,6 +114,30 @@
   animation: journey-line 3s ease-in-out infinite;
 }
 
+/* VeilPass signature reveal animation - claims emerge from behind veil */
+@keyframes veil-reveal {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+.animate-veil-reveal {
+  animation: veil-reveal 400ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Initial hidden state for veil reveal elements */
+.veil-hidden {
+  opacity: 0;
+  transform: translateY(8px);
+  filter: blur(4px);
+}
+
 @layer utilities {
   /* Dialog animations with reduced motion support */
   .animate-dialog-in {
