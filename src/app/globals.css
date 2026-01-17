@@ -412,20 +412,28 @@
     @apply uppercase tracking-widest text-xs;
   }
 
-  /* Nav link hover effect - only applies on devices that support hover */
+  /* Nav link styles with hover and active state support
+   * Active state (current page) is handled via aria-current="page"
+   * Hover state is visually distinct from active state
+   */
   .nav-link {
-    @apply text-zinc-400 transition px-3 py-2 min-h-[44px] flex items-center rounded-md;
+    @apply text-zinc-400 transition-colors duration-150 px-3 py-2 min-h-[44px] flex items-center rounded-md;
   }
+  /* Hover effect for non-active links (hover-capable devices only) */
   @media (hover: hover) and (pointer: fine) {
-    .nav-link:hover {
-      @apply text-white bg-zinc-800/50;
+    .nav-link:hover:not([aria-current="page"]) {
+      @apply text-zinc-200 bg-zinc-800/30;
     }
   }
-  /* Touch devices get active state instead */
+  /* Touch devices get active state instead of hover */
   @media (hover: none) {
-    .nav-link:active {
-      @apply text-white bg-zinc-800/50;
+    .nav-link:active:not([aria-current="page"]) {
+      @apply text-zinc-200 bg-zinc-800/30;
     }
+  }
+  /* Active page indicator - more prominent than hover */
+  .nav-link[aria-current="page"] {
+    @apply text-white bg-zinc-800/50;
   }
 
   /* Interactive card hover effect - subtle shadow lift

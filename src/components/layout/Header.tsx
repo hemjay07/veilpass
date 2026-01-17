@@ -1,7 +1,20 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { WalletButton } from "@/components/wallet/WalletButton";
+import { cn } from "@/lib/utils";
+
+const navItems = [
+  { href: "/mint", label: "Mint" },
+  { href: "/attest", label: "Attest" },
+  { href: "/disclose", label: "Disclose" },
+  { href: "/dashboard", label: "Dashboard" },
+];
 
 export function Header() {
+  const pathname = usePathname();
+
   return (
     <header className="border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-sm sticky top-0 z-50">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
@@ -13,10 +26,22 @@ export function Header() {
         </Link>
 
         <nav className="hidden md:flex items-center gap-2">
-          <Link href="/mint" className="nav-link">Mint</Link>
-          <Link href="/attest" className="nav-link">Attest</Link>
-          <Link href="/disclose" className="nav-link">Disclose</Link>
-          <Link href="/dashboard" className="nav-link">Dashboard</Link>
+          {navItems.map((item) => {
+            const isActive = pathname === item.href;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  "nav-link",
+                  isActive && "text-white bg-zinc-800/50"
+                )}
+                aria-current={isActive ? "page" : undefined}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
 
         <WalletButton />
