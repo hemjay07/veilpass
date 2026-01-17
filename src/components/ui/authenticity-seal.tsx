@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { HelpTooltip } from "@/components/ui/help-tooltip";
 
 interface AuthenticitySealProps {
   verificationTimestamp: number;
@@ -69,7 +70,10 @@ export function AuthenticitySeal({
 
             {/* Proof Hash */}
             <div className="flex items-center justify-between text-sm">
-              <span className="text-zinc-500">Proof Hash</span>
+              <span className="text-zinc-500 flex items-center gap-1">
+                Proof Hash
+                <HelpTooltip term="proof-hash" />
+              </span>
               <div className="flex items-center gap-2">
                 <code className="text-zinc-300 font-mono text-xs bg-zinc-800 px-2 py-1 rounded">
                   {truncatedHash}

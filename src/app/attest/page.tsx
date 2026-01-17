@@ -12,6 +12,7 @@ import { ProgressTracker, type ProgressStep } from "@/components/ui/progress-tra
 import { EmptyState } from "@/components/ui/empty-state";
 import { Celebration } from "@/components/ui/celebration";
 import { ClaimBadge, getClaimConfig } from "@/components/ui/claim-badge";
+import { HelpTooltip } from "@/components/ui/help-tooltip";
 import { Container } from "@/components/layout/Container";
 import type { ClaimType, Attestation, AttestationSecret } from "@/types";
 
@@ -163,6 +164,7 @@ export default function AttestPage() {
                       <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                     </svg>
                     Save Your Secret File
+                    <HelpTooltip term="secret-file" />
                   </p>
                   <p className="text-sm text-zinc-400 mb-4">
                     This file is required to create disclosures. It cannot be recovered if lost.
@@ -207,7 +209,10 @@ export default function AttestPage() {
     <>
       <ProgressTracker steps={ATTEST_STEPS} currentStep={currentStep} />
       <Container className="max-w-2xl">
-        <h1 className="text-3xl font-bold mb-2">Generate Attestation</h1>
+        <h1 className="text-3xl font-bold mb-2 flex items-center gap-2">
+          Generate Attestation
+          <HelpTooltip term="attestation" />
+        </h1>
         <p className="text-zinc-400 mb-8">Select your compliance claims and generate a cryptographic attestation</p>
 
         <Card className="bg-zinc-900 border-zinc-800">

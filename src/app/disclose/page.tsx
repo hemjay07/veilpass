@@ -12,6 +12,7 @@ import { ProgressTracker, type ProgressStep } from "@/components/ui/progress-tra
 import { EmptyState } from "@/components/ui/empty-state";
 import { Celebration } from "@/components/ui/celebration";
 import { getClaimConfig, getClaimLabel } from "@/components/ui/claim-badge";
+import { HelpTooltip } from "@/components/ui/help-tooltip";
 import { Container } from "@/components/layout/Container";
 import type { AttestationSecret, ClaimType } from "@/types";
 
@@ -197,7 +198,10 @@ export default function DisclosePage() {
     <>
       <ProgressTracker steps={DISCLOSE_STEPS} currentStep={currentStep} />
       <Container className="max-w-2xl">
-        <h1 className="text-3xl font-bold mb-2">Create Disclosure</h1>
+        <h1 className="text-3xl font-bold mb-2 flex items-center gap-2">
+          Create Selective Disclosure
+          <HelpTooltip term="selective-disclosure" />
+        </h1>
         <p className="text-zinc-400 mb-8">Select which compliance claims to share with auditors</p>
 
         <div className="space-y-6">

@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { TrustBadges } from "@/components/ui/trust-badges";
 import { JourneySteps } from "@/components/ui/journey-steps";
 import { PrivacyExplainer } from "@/components/ui/privacy-explainer";
+import { HelpTooltip } from "@/components/ui/help-tooltip";
 import { Container } from "@/components/layout/Container";
 
 export default function Home() {
@@ -28,7 +29,7 @@ export default function Home() {
               </h1>
               <p className="text-lg md:text-xl text-zinc-400 mb-6 max-w-xl">
                 Prove KYC, AML, and accredited investor status without exposing personal data.
-                Cryptographic attestations for RWA tokenization.
+                Cryptographic attestations for <span className="inline-flex items-center gap-1">RWA<HelpTooltip term="rwa" /></span> tokenization.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 mb-6">
                 <Link href="/attest">
@@ -91,7 +92,10 @@ export default function Home() {
 
             <Card className="bg-zinc-900 border-zinc-800">
               <CardHeader>
-                <CardTitle className="text-lg">2. Generate Attestation</CardTitle>
+                <CardTitle className="text-lg flex items-center gap-2">
+                  2. Generate Attestation
+                  <HelpTooltip term="attestation" />
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription>
@@ -102,7 +106,10 @@ export default function Home() {
 
             <Card className="bg-zinc-900 border-zinc-800">
               <CardHeader>
-                <CardTitle className="text-lg">3. Selective Disclosure</CardTitle>
+                <CardTitle className="text-lg flex items-center gap-2">
+                  3. Selective Disclosure
+                  <HelpTooltip term="selective-disclosure" />
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription>

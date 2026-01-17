@@ -7,6 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { AuthenticitySeal } from "@/components/ui/authenticity-seal";
 import { VeilReveal } from "@/components/ui/veil-reveal";
 import { getClaimConfig, getClaimLabel } from "@/components/ui/claim-badge";
+import { HelpTooltip } from "@/components/ui/help-tooltip";
 import { Container } from "@/components/layout/Container";
 import type { VerificationResult, ClaimType } from "@/types";
 
@@ -93,10 +94,13 @@ export default function VerifyPage() {
         <CardHeader>
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 bg-accent rounded-full"></div>
-            <CardTitle className="text-accent">Cryptographically Verified</CardTitle>
+            <CardTitle className="text-accent flex items-center gap-2">
+              Cryptographically Verified
+              <HelpTooltip term="zero-knowledge" />
+            </CardTitle>
           </div>
           <CardDescription>
-            This compliance disclosure has been verified
+            This compliance disclosure has been verified using zero-knowledge proofs
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
