@@ -210,7 +210,7 @@ export default function DisclosePage() {
                       toggleField(claim.type);
                     }
                   }}
-                  className={`p-4 min-h-[56px] rounded-lg border cursor-pointer transition focus-ring ${
+                  className={`p-4 min-h-[56px] rounded-lg border cursor-pointer transition-colors duration-150 ease-out focus-ring ${
                     selectedFields.includes(claim.type)
                       ? "border-accent bg-accent/10"
                       : "border-zinc-800 hover:border-zinc-700"
