@@ -11,6 +11,59 @@
 - API endpoints work correctly: /api/attestations/generate, /api/attestations/verify, /api/disclosures/{id}
 - Wallet connection requires Phantom browser extension for full testing
 - Many features can be verified by code review when they depend on wallet interaction
+- NEW: Two-value border radius system: --radius (6px) for buttons/inputs, --radius-lg (12px) for cards
+- NEW: Focus ring utility class `.focus-ring` for consistent keyboard focus states
+- NEW: Hover utilities `.nav-link` and `.card-hover` for touch-friendly hover effects
+
+## Session 7 - Design Revamp Features (January 17, 2026)
+
+### Summary
+Implemented 5 design revamp features (91-95) focusing on accessibility and visual consistency.
+Progress increased from 90/130 (69.2%) to 95/130 (73.1%).
+
+### Features Completed This Session
+- **Feature #91** - Focus Ring Consistency ✅
+  - Created `.focus-ring` utility class using box-shadow pattern
+  - Applied to Button, Input, Checkbox, Select, Dialog, Toast components
+  - Box-shadow respects border-radius automatically with no layout shift
+
+- **Feature #92** - Border Radius Consistency ✅
+  - Defined two-value system: --radius (6px) and --radius-lg (12px)
+  - Updated tailwind.config.ts and globals.css
+  - Applied consistently: lg for cards/modals, md for buttons/inputs
+
+- **Feature #93** - Navigation Hover States ✅
+  - Wrapped hover effects in @media (hover: hover) and (pointer: fine)
+  - Created `.nav-link` utility with active state fallback for touch devices
+  - Added iOS tap highlight removal (-webkit-tap-highlight-color: transparent)
+
+- **Feature #94** - Card Hover Animations ✅
+  - Created `.card-hover` utility with shadow-based lift effect
+  - No layout shift (uses shadow, not transform)
+  - Applied to interactive dashboard cards
+
+- **Feature #95** - Form Error State Accessibility ✅
+  - Added role="alert" to error messages
+  - Added aria-describedby linking errors to form controls
+  - Added error icons alongside red text (not color alone)
+  - Added aria-invalid for inputs in error state
+
+### Code Changes This Session
+1. **globals.css** - Added focus-ring, nav-link, card-hover utilities; two-value radius system
+2. **tailwind.config.ts** - Updated borderRadius to use CSS variables
+3. **button.tsx, input.tsx, checkbox.tsx, select.tsx, dialog.tsx, toast.tsx** - Applied focus-ring class
+4. **Header.tsx** - Refactored nav links to use nav-link utility
+5. **dashboard/page.tsx** - Applied card-hover to interactive cards
+6. **attest/page.tsx, disclose/page.tsx** - Added accessible error states with icons and ARIA
+
+### Current Feature Stats
+- **Total: 130**
+- **Passing: 95 ✅**
+- **In Progress: 0**
+- **Blocked: 0**
+- **Percentage: 73.1%**
+
+---
 
 ## Session 6 - 🎉 100% COMPLETION! (January 17, 2026)
 
