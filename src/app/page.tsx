@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { TrustBadges } from "@/components/ui/trust-badges";
+import { JourneySteps } from "@/components/ui/journey-steps";
 import { PrivacyExplainer } from "@/components/ui/privacy-explainer";
 import { Container } from "@/components/layout/Container";
 
@@ -51,6 +52,19 @@ export default function Home() {
               </div>
             </div>
           </div>
+        </Container>
+      </section>
+
+      {/* Journey Visualization - Quick 3-step overview */}
+      <section className="py-16 md:py-20 border-b border-zinc-800/50">
+        <Container>
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-4">
+            Three Simple Steps
+          </h2>
+          <p className="text-zinc-400 text-center mb-12 max-w-lg mx-auto">
+            Generate attestations, create selective disclosures, and let auditors verify cryptographically
+          </p>
+          <JourneySteps />
         </Container>
       </section>
 

@@ -77,10 +77,13 @@ export interface VerificationResult {
   isValid: boolean;
   disclosedData?: Record<string, any>;
   discloser?: string;
+  attestationId?: string;
   attestationDate?: number;
   tokenAddress?: string;
   accessNumber?: number;
   expiresAt?: number;
+  proofHash?: string;
+  verificationTimestamp?: number;
   error?: {
     code: 'NOT_FOUND' | 'EXPIRED' | 'ACCESS_LIMIT' | 'INVALID_PROOF';
     message: string;

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { AuthenticitySeal } from "@/components/ui/authenticity-seal";
 import { Container } from "@/components/layout/Container";
 import type { VerificationResult } from "@/types";
 
@@ -128,6 +129,15 @@ export default function VerifyPage() {
             <span className="tabular-nums">View #{result.accessNumber}</span>
             <span>Expires: {result.expiresAt ? new Date(result.expiresAt).toLocaleDateString() : "N/A"}</span>
           </div>
+
+          {/* Authenticity Seal for legal defensibility */}
+          {result.proofHash && result.verificationTimestamp && result.attestationId && (
+            <AuthenticitySeal
+              verificationTimestamp={result.verificationTimestamp}
+              proofHash={result.proofHash}
+              attestationId={result.attestationId}
+            />
+          )}
         </CardContent>
       </Card>
     </Container>

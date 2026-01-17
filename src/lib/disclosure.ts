@@ -71,9 +71,12 @@ export function verifyDisclosure(
     isValid: true,
     disclosedData: disclosure.disclosedData,
     discloser: disclosure.discloser,
+    attestationId: disclosure.attestationId,
     attestationDate: disclosure.createdAt,
     accessNumber: accessCount + 1,
-    expiresAt: disclosure.expiresAt
+    expiresAt: disclosure.expiresAt,
+    proofHash: disclosure.proofHash,
+    verificationTimestamp: Date.now()
   };
 }
 

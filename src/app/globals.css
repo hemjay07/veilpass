@@ -71,6 +71,49 @@
   animation: pulse-once 1.5s ease-in-out 1;
 }
 
+/* Seal animation - fade in with subtle scale */
+@keyframes seal-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.animate-seal-in {
+  animation: seal-in 0.4s ease-out;
+}
+
+/* Journey step animation - fade in and slide up */
+@keyframes step-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-step-in {
+  animation: step-in 0.5s ease-out forwards;
+}
+
+/* Journey line animation - subtle pulse along the line */
+@keyframes journey-line {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+.animate-journey-line {
+  animation: journey-line 3s ease-in-out infinite;
+}
+
 @layer utilities {
   /* Dialog animations with reduced motion support */
   .animate-dialog-in {
