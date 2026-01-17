@@ -114,7 +114,7 @@ export default function AttestPage() {
           <CardContent className="space-y-6">
             <div>
               <p className="text-sm text-zinc-400">Attestation ID</p>
-              <p className="font-mono text-sm">{result.attestation.id}</p>
+              <p className="font-mono text-sm tabular-nums">{result.attestation.id}</p>
             </div>
 
             <div>

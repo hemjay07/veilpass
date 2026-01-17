@@ -138,11 +138,46 @@
   }
   body {
     @apply bg-background text-foreground;
+    /* Font smoothing for crisp text rendering on all displays */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /*
+   * Typography Scale (limited to 4 sizes for consistency):
+   * - text-3xl (30px): Page titles only
+   * - text-xl/text-lg (20px/18px): Section headings, card titles
+   * - text-base (16px): Body text, form labels
+   * - text-sm (14px): Secondary text, descriptions, captions
+   *
+   * Heading styles with proper letter-spacing:
+   * - Large headings get tighter tracking (-0.025em)
+   * - Uppercase labels get wider tracking (0.05em)
+   */
+  h1 {
+    @apply tracking-tight; /* -0.025em for large headings */
+  }
+  h2, h3 {
+    @apply tracking-tight; /* Slightly tighter for section headings */
   }
 }
 
 /* Hover-capable-only hover effects - prevents stuck hover on touch devices */
 @layer utilities {
+  /* Tabular numbers for attestation IDs, counters, and numeric data
+     - Ensures equal-width digits for better alignment
+     - Useful for IDs, timestamps, access counts
+  */
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Uppercase label tracking - slightly wider for readability */
+  .label-uppercase {
+    @apply uppercase tracking-widest text-xs;
+  }
+
   /* Nav link hover effect - only applies on devices that support hover */
   .nav-link {
     @apply text-zinc-400 transition px-3 py-2 min-h-[44px] flex items-center rounded-md;

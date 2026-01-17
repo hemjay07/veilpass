@@ -86,7 +86,7 @@ export default function MintPage() {
           <CardContent className="space-y-4">
             <div>
               <p className="text-sm text-zinc-400">Token Address (Demo)</p>
-              <p className="font-mono text-sm break-all">{success}</p>
+              <p className="font-mono text-sm break-all tabular-nums">{success}</p>
             </div>
             <p className="text-amber-500 text-sm">
               Note: This is a demo. In production, this would create a real token on Solana.

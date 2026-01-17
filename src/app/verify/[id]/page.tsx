@@ -99,7 +99,7 @@ export default function VerifyPage() {
         <CardContent className="space-y-6">
           <div>
             <p className="text-sm text-zinc-400">Wallet Address</p>
-            <p className="font-mono text-sm">{result.discloser}</p>
+            <p className="font-mono text-sm tabular-nums">{result.discloser}</p>
           </div>
 
           <div>
@@ -125,7 +125,7 @@ export default function VerifyPage() {
           </div>
 
           <div className="flex justify-between text-sm text-zinc-400">
-            <span>View #{result.accessNumber}</span>
+            <span className="tabular-nums">View #{result.accessNumber}</span>
             <span>Expires: {result.expiresAt ? new Date(result.expiresAt).toLocaleDateString() : "N/A"}</span>
           </div>
         </CardContent>

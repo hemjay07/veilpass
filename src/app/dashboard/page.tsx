@@ -74,7 +74,7 @@ export default function DashboardPage() {
 
       <div className="mb-8 p-4 bg-zinc-900 rounded-lg border border-zinc-800">
         <p className="text-sm text-zinc-400">Connected Wallet</p>
-        <p className="font-mono text-sm">{publicKey?.toBase58()}</p>
+        <p className="font-mono text-sm tabular-nums">{publicKey?.toBase58()}</p>
       </div>
 
       <h2 className="text-xl font-semibold mb-4">Quick Actions</h2>
