@@ -27,7 +27,7 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
             </div>
           </div>
 
-          <h1 className="text-2xl font-bold mb-4">Critical Error</h1>
+          <h1 className="text-3xl font-bold mb-4">Critical Error</h1>
           <p className="text-zinc-400 mb-6">
             Something went wrong with VeilPass. Your data is safe.
           </p>
