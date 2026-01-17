@@ -42,6 +42,13 @@ export async function storeDisclosure(disclosure: Disclosure): Promise<void> {
   const kv = await getKv();
   const ttl = Math.floor((disclosure.expiresAt - Date.now()) / 1000);
   await kv.set(`disclosure:${disclosure.id}`, disclosure, { ex: ttl > 0 ? ttl : 3600 });
+
+  // Index disclosure by discloser for analytics
+  const discloserKey = `discloser:${disclosure.discloser}:disclosures`;
+  const existing = await kv.get<string[]>(discloserKey) || [];
+  if (!existing.includes(disclosure.id)) {
+    await kv.set(discloserKey, [...existing, disclosure.id]);
+  }
 }
 
 export async function getDisclosure(id: string): Promise<Disclosure | null> {
@@ -59,4 +66,12 @@ export async function incrementDisclosureAccess(id: string): Promise<number> {
   await kv.set(`disclosure:${disclosure.id}`, disclosure, { ex: ttl > 0 ? ttl : 3600 });
 
   return disclosure.accessCount;
+}
+
+// Get disclosures by discloser address for analytics
+export async function getDisclosuresByDiscloser(discloser: string): Promise<Disclosure[]> {
+  const kv = await getKv();
+  const ids = await kv.get<string[]>(`discloser:${discloser}:disclosures`) || [];
+  const disclosures = await Promise.all(ids.map(id => getDisclosure(id)));
+  return disclosures.filter((d): d is Disclosure => d !== null);
 }
