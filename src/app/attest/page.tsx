@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";
 import { ProgressTracker, type ProgressStep } from "@/components/ui/progress-tracker";
 import { EmptyState } from "@/components/ui/empty-state";
+import { Celebration } from "@/components/ui/celebration";
 import { Container } from "@/components/layout/Container";
 import type { ClaimType, Attestation, AttestationSecret } from "@/types";
 
@@ -33,6 +34,7 @@ export default function AttestPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<{ attestation: Attestation; secret: AttestationSecret } | null>(null);
+  const [showCelebration, setShowCelebration] = useState(false);
 
   // Calculate current step
   const currentStep = useMemo(() => {
@@ -84,6 +86,7 @@ export default function AttestPage() {
       }
 
       setResult(data.data);
+      setShowCelebration(true);
 
       // Dispatch event for onboarding checklist
       window.dispatchEvent(new CustomEvent("veilpass:attestation:complete"));
@@ -125,6 +128,9 @@ export default function AttestPage() {
   if (result) {
     return (
       <>
+        {showCelebration && (
+          <Celebration variant="attestation" onComplete={() => setShowCelebration(false)} />
+        )}
         <ProgressTracker steps={ATTEST_STEPS} currentStep={currentStep} />
         <Container className="max-w-2xl">
           <Card className="bg-zinc-900 border-zinc-800">

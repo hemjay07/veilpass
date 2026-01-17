@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";
 import { ProgressTracker, type ProgressStep } from "@/components/ui/progress-tracker";
 import { EmptyState } from "@/components/ui/empty-state";
+import { Celebration } from "@/components/ui/celebration";
 import { Container } from "@/components/layout/Container";
 import type { AttestationSecret, ClaimType } from "@/types";
 
@@ -30,6 +31,7 @@ export default function DisclosePage() {
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<{ disclosureId: string; verifyUrl: string } | null>(null);
   const [copied, setCopied] = useState(false);
+  const [showCelebration, setShowCelebration] = useState(false);
 
   // Calculate current step
   const currentStep = useMemo(() => {
@@ -100,6 +102,7 @@ export default function DisclosePage() {
       }
 
       setResult(data.data);
+      setShowCelebration(true);
 
       // Dispatch event for onboarding checklist
       window.dispatchEvent(new CustomEvent("veilpass:disclosure:complete"));
@@ -138,6 +141,9 @@ export default function DisclosePage() {
   if (result) {
     return (
       <>
+        {showCelebration && (
+          <Celebration variant="disclosure" onComplete={() => setShowCelebration(false)} />
+        )}
         <ProgressTracker steps={DISCLOSE_STEPS} currentStep={currentStep} />
         <Container className="max-w-2xl">
           <Card className="bg-zinc-900 border-zinc-800">
