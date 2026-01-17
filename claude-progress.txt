@@ -1,5 +1,53 @@
 # VeilPass Development Progress
 
+## Operational Notes
+- Start app: `npm run dev` (runs on port 3001 if 3000 is busy)
+- Dev server compiles pages on first request (may be slow initially)
+- Local KV mock is used for development - data doesn't persist between server restarts
+- ENCRYPTION_SECRET is set in .env.local (64-char hex)
+- GOTCHA: The /verify/[id] page has slow initial hydration - may need page refresh
+- GOTCHA: pino-pretty warning in console (from wallet-adapter) - harmless, ignore it
+- API endpoints work correctly: /api/attestations/generate, /api/attestations/verify, /api/disclosures/{id}
+- Wallet connection requires Phantom browser extension for full testing
+
+## Session 2 - Feature Testing (January 17, 2026)
+
+### Summary
+Verified and marked 13 features as passing (15.3% complete).
+
+### Features Verified This Session
+1. **Feature #1** - Wallet connection required for attestation generation ✅
+2. **Feature #3** - Signature verification on attestation requests ✅
+3. **Feature #6** - Expired attestations return proper error ✅
+4. **Feature #8** - Encryption secret properly configured ✅
+5. **Feature #9** - Header navigation links work correctly ✅
+6. **Feature #10** - Logo links to home page ✅
+7. **Feature #11** - All page routes render without errors ✅
+8. **Feature #12** - Invalid routes show 404 ✅
+9. **Feature #13** - Verify page handles invalid disclosure IDs ✅
+(Features #2, #4, #5, #7 were already passing from initialization)
+
+### Testing Approach
+- Used Playwright browser automation to navigate and verify UI
+- Verified API endpoints with curl commands
+- Took screenshots for visual verification
+- Checked console for errors (none found except info messages)
+- Code review for features requiring wallet interaction
+
+### Current Feature Stats
+- Total: 85
+- Passing: 13
+- In Progress: 1
+- Blocked: 0
+- Percentage: 15.3%
+
+### Next Steps
+- Continue with Feature #14 (Dashboard shows connect wallet prompt when disconnected)
+- Test full attestation and disclosure workflow end-to-end
+- Test with real wallet connection if Phantom is available
+
+---
+
 ## Session 1 - Initializer Agent (January 17, 2026)
 
 ### Summary
