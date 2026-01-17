@@ -5,6 +5,7 @@ import { WalletProvider } from "@/components/wallet/WalletProvider";
 import { Header } from "@/components/layout/Header";
 import { TrustBar } from "@/components/layout/TrustBar";
 import { Footer } from "@/components/layout/Footer";
+import { PageTransition } from "@/components/layout/PageTransition";
 import { OnboardingModal } from "@/components/ui/onboarding-modal";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -53,7 +54,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <WalletProvider>
           <Header />
           <TrustBar />
-          <main className="flex-1">{children}</main>
+          <main className="flex-1">
+            <PageTransition>{children}</PageTransition>
+          </main>
           <Footer />
           <OnboardingModal />
         </WalletProvider>
