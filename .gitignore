@@ -51,3 +51,4 @@ veilpass-secret-*.json
 
 # Local database (for development)
 *.db-journal
+.env*.local

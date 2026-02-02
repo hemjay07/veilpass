@@ -54,32 +54,3 @@ export function VeilReveal({ children, delay = 0, className }: VeilRevealProps) 
   );
 }
 
-interface VeilRevealListProps {
-  children: React.ReactNode[];
-  staggerDelay?: number;
-  initialDelay?: number;
-  className?: string;
-}
-
-/**
- * VeilRevealList - Container for staggered reveal animations
- *
- * Wraps each child with VeilReveal and staggers the reveal timing
- * to create a sequential "unveiling" effect.
- */
-export function VeilRevealList({
-  children,
-  staggerDelay = 150,
-  initialDelay = 300,
-  className
-}: VeilRevealListProps) {
-  return (
-    <div className={className}>
-      {React.Children.map(children, (child, index) => (
-        <VeilReveal delay={initialDelay + (index * staggerDelay)}>
-          {child}
-        </VeilReveal>
-      ))}
-    </div>
-  );
-}
