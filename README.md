@@ -1,6 +1,6 @@
 # VeilPass
 
-Privacy-preserving compliance attestations for tokenized real-world assets on Solana.
+Privacy-preserving compliance attestations for tokenized real-world assets on Solana
 
 ## What is VeilPass?
 
