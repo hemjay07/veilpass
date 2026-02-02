@@ -6,7 +6,7 @@ Privacy-preserving compliance attestations for tokenized real-world assets on So
 
 VeilPass enables users to prove compliance (KYC, AML, accredited investor status) without revealing personal information. Using cryptographic attestations and selective disclosure, auditors can verify compliance while your data stays private.
 
-**Live Demo**: [veilpass.vercel.app](https://veilpass.vercel.app)
+**Live Demo**: [veilpass-app.vercel.app](https://veilpass-app.vercel.app)
 
 ## How It Works
 
@@ -58,4 +58,3 @@ npm run dev
 ## License
 
 MIT
-# Deployed on Vercel
