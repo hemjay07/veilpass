@@ -52,3 +52,6 @@ veilpass-secret-*.json
 # Local database (for development)
 *.db-journal
 .env*.local
+
+# Demo video project (separate)
+demo-video/
