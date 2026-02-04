@@ -48,6 +48,7 @@ next-env.d.ts
 
 # Secret files (IMPORTANT: never commit these!)
 veilpass-secret-*.json
+payer-keypair.json
 
 # Local database (for development)
 *.db-journal
@@ -55,3 +56,4 @@ veilpass-secret-*.json
 
 # Demo video project (separate)
 demo-video/
+cache/

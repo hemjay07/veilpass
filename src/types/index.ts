@@ -57,6 +57,20 @@ export interface AttestationSecret {
   fullClaims: AttestationClaim[];
 }
 
+// On-chain storage result
+export interface OnChainData {
+  signature?: string;
+  explorerUrl?: string;
+  error?: string;
+}
+
+// Response from attestation generation
+export interface AttestationGenerateResponse {
+  attestation: Attestation;
+  secret: AttestationSecret;
+  onChain?: OnChainData;
+}
+
 // Disclosure Types
 export interface Disclosure {
   id: string;

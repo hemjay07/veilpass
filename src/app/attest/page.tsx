@@ -14,7 +14,8 @@ import { Celebration } from "@/components/ui/celebration";
 import { ClaimBadge, getClaimConfig } from "@/components/ui/claim-badge";
 import { HelpTooltip } from "@/components/ui/help-tooltip";
 import { Container } from "@/components/layout/Container";
-import type { ClaimType, Attestation, AttestationSecret } from "@/types";
+import { ReclaimVerification } from "@/components/ReclaimVerification";
+import type { ClaimType, Attestation, AttestationSecret, OnChainData } from "@/types";
 
 const ATTEST_STEPS: ProgressStep[] = [
   { id: "connect", name: "Connect Wallet" },
@@ -35,8 +36,10 @@ export default function AttestPage() {
   const [selectedClaims, setSelectedClaims] = useState<ClaimType[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [result, setResult] = useState<{ attestation: Attestation; secret: AttestationSecret } | null>(null);
+  const [result, setResult] = useState<{ attestation: Attestation; secret: AttestationSecret; onChain?: OnChainData } | null>(null);
   const [showCelebration, setShowCelebration] = useState(false);
+  const [identityVerified, setIdentityVerified] = useState(false);
+  const [showIdentityVerification, setShowIdentityVerification] = useState(false);
 
   // Calculate current step
   const currentStep = useMemo(() => {
@@ -160,6 +163,46 @@ export default function AttestPage() {
                 <p className="font-mono text-sm tabular-nums">{result.attestation.id}</p>
               </div>
 
+              {/* On-Chain Verification */}
+              {result.onChain?.signature && (
+                <div className="p-4 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
+                  <div className="flex items-center gap-2 mb-2">
+                    <svg className="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span className="text-emerald-500 font-semibold">Stored On-Chain</span>
+                  </div>
+                  <p className="text-sm text-zinc-400 mb-2">
+                    Your attestation commitment is permanently recorded on Solana.
+                  </p>
+                  <a
+                    href={result.onChain.explorerUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-sm text-primary hover:text-primary/80 transition-colors"
+                  >
+                    <span>View on Solana Explorer</span>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </a>
+                </div>
+              )}
+
+              {result.onChain?.error && (
+                <div className="p-4 rounded-lg bg-yellow-500/10 border border-yellow-500/20">
+                  <div className="flex items-center gap-2 mb-1">
+                    <svg className="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                    </svg>
+                    <span className="text-yellow-500 font-semibold">On-Chain Storage Pending</span>
+                  </div>
+                  <p className="text-sm text-zinc-400">
+                    Attestation saved locally. On-chain storage: {result.onChain.error}
+                  </p>
+                </div>
+              )}
+
               <div>
                 <p className="text-sm text-zinc-400">Claims</p>
                 <div className="flex flex-wrap gap-2 mt-1">
@@ -226,6 +269,49 @@ export default function AttestPage() {
           <HelpTooltip term="attestation" />
         </h1>
         <p className="text-zinc-400 mb-8">Select your compliance claims and generate a cryptographic attestation</p>
+
+        {/* Optional Identity Verification */}
+        <Card className="bg-zinc-900 border-zinc-800 mb-6">
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle className="flex items-center gap-2">
+                  <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                  </svg>
+                  Identity Verification
+                  {identityVerified && (
+                    <span className="text-xs bg-emerald-500/20 text-emerald-500 px-2 py-0.5 rounded-full">
+                      Verified
+                    </span>
+                  )}
+                </CardTitle>
+                <CardDescription>Optional: Verify your identity using Reclaim Protocol</CardDescription>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setShowIdentityVerification(!showIdentityVerification)}
+              >
+                {showIdentityVerification ? 'Hide' : identityVerified ? 'View' : 'Verify'}
+              </Button>
+            </div>
+          </CardHeader>
+          {showIdentityVerification && (
+            <CardContent>
+              <ReclaimVerification
+                onVerified={() => {
+                  setIdentityVerified(true);
+                }}
+                onError={(err) => {
+                  console.error('Identity verification error:', err);
+                }}
+                title="Verify Your Identity"
+                description="Prove facts about yourself using ZK proofs - no raw data exposed"
+              />
+            </CardContent>
+          )}
+        </Card>
 
         <Card className="bg-zinc-900 border-zinc-800">
         <CardHeader>

@@ -9,6 +9,7 @@ import { OnboardingChecklist } from "@/components/ui/onboarding-checklist";
 import { EmptyState } from "@/components/ui/empty-state";
 import { DisclosureAnalytics } from "@/components/ui/disclosure-analytics";
 import { Container } from "@/components/layout/Container";
+import { PrivacyCashPanel } from "@/components/PrivacyCashPanel";
 
 export default function DashboardPage() {
   const { connected, publicKey, connecting } = useWallet();
@@ -109,6 +110,12 @@ export default function DashboardPage() {
 
       {/* Disclosure Analytics */}
       <DisclosureAnalytics className="mb-8" />
+
+      {/* Privacy Cash */}
+      <h2 className="text-xl font-semibold mb-4">Privacy Cash</h2>
+      <div className="mb-8">
+        <PrivacyCashPanel />
+      </div>
 
       <h2 className="text-xl font-semibold mb-4">How It Works</h2>
       <Card className="bg-zinc-900 border-zinc-800">
