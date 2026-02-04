@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { Button } from "@/components/ui/button";
@@ -44,6 +44,18 @@ export default function AttestPage() {
     if (connected) return 1; // Select Claims
     return 0; // Connect Wallet
   }, [connected, result]);
+
+  // Clear any lingering errors on mount
+  useEffect(() => {
+    setError(null);
+  }, []);
+
+  // Clear error when user starts selecting claims
+  useEffect(() => {
+    if (selectedClaims.length > 0) {
+      setError(null);
+    }
+  }, [selectedClaims]);
 
   const toggleClaim = (claim: ClaimType) => {
     setSelectedClaims(prev =>

@@ -1,6 +1,7 @@
 "use client";
 
-import { FC, ReactNode, useMemo } from "react";
+import { FC, ReactNode, useMemo, useCallback } from "react";
+import { WalletError } from "@solana/wallet-adapter-base";
 import { ConnectionProvider, WalletProvider as SolanaWalletProvider } from "@solana/wallet-adapter-react";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import { PhantomWalletAdapter, SolflareWalletAdapter } from "@solana/wallet-adapter-wallets";
@@ -19,9 +20,14 @@ export const WalletProvider: FC<Props> = ({ children }) => {
     new SolflareWalletAdapter(),
   ], []);
 
+  // Log wallet errors to help debug
+  const onError = useCallback((error: WalletError) => {
+    console.error("Wallet error:", error.name, error.message);
+  }, []);
+
   return (
     <ConnectionProvider endpoint={endpoint}>
-      <SolanaWalletProvider wallets={wallets} autoConnect>
+      <SolanaWalletProvider wallets={wallets} autoConnect onError={onError}>
         <WalletModalProvider>
           {children}
         </WalletModalProvider>
