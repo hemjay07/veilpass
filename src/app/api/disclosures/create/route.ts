@@ -1,12 +1,19 @@
 import { NextResponse } from "next/server";
+import { headers } from "next/headers";
 import { CreateDisclosureSchema } from "@/lib/validation";
 import { verifyAttestation } from "@/lib/attestation";
-import { createDisclosure, formatDisclosureUrl } from "@/lib/disclosure";
+import { createDisclosure } from "@/lib/disclosure";
 import { getAttestation, storeDisclosure } from "@/lib/kv";
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
+
+    // Get the host from request headers to build correct URL
+    const headersList = headers();
+    const host = headersList.get("host") || "localhost:3000";
+    const protocol = headersList.get("x-forwarded-proto") || "https";
+    const baseUrl = `${protocol}://${host}`;
 
     // Validate input
     const parseResult = CreateDisclosureSchema.safeParse(body);
@@ -54,7 +61,7 @@ export async function POST(request: Request) {
       success: true,
       data: {
         disclosureId: disclosure.id,
-        verifyUrl: formatDisclosureUrl(disclosure.id),
+        verifyUrl: `${baseUrl}/verify/${disclosure.id}`,
         expiresAt: disclosure.expiresAt
       }
     });
