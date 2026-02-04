@@ -199,16 +199,6 @@ curl http://localhost:3000/api/privacy-cash/info
 
 ---
 
-## Bounty Integrations
-
-| Integration | Bounty | Status |
-|-------------|--------|--------|
-| **Privacy Cash** | $6,000 | ✅ SDK Integrated (mainnet-ready) |
-| **Range API** | $1,500 | ✅ Live (real risk scores) |
-| **Reclaim Protocol** | - | ✅ Live (real ZK sessions) |
-
----
-
 ## Project Structure
 
 ```
