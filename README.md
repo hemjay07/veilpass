@@ -240,6 +240,16 @@ src/
 
 ---
 
+## Roadmap
+
+- **Mainnet deployment** - Enable Privacy Cash for real private transfers
+- **More identity providers** - Add LinkedIn, Twitter verification via Reclaim
+- **Issuer dashboard** - Let compliance providers issue attestations directly
+- **RWA platform integrations** - Gate access to security tokens with attestations
+- **Compressed NFT registry** - On-chain attestation storage with lower gas costs
+
+---
+
 ## Security
 
 - All attestation secrets are encrypted at rest
