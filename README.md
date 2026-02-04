@@ -2,7 +2,7 @@
 
 **Privacy-preserving compliance attestations for tokenized real-world assets on Solana**
 
-VeilPass enables users to prove compliance (KYC, AML, accredited investor status) without revealing personal information. Using cryptographic attestations, on-chain verification, and selective disclosure, auditors can verify compliance while your data stays private.
+VeilPass enables users to prove compliance (KYC, AML, accredited investor status) without revealing personal information. Using cryptographic attestations, on-chain verification, and selective disclosure, auditors can verify compliance while your data stays private
 
 🌐 **Live Demo**: [veilpass-nu.vercel.app](https://veilpass-nu.vercel.app)
 
