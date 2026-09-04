@@ -6,7 +6,7 @@ import Link from "next/link";
  * Contains:
  * - Copyright notice with current year
  * - Privacy/legal links
- * - Social/GitHub links
+ * - Social links (X, GitHub)
  * - Hackathon attribution
  *
  * Note: Error pages (error.tsx, global-error.tsx, not-found.tsx) have
@@ -49,7 +49,18 @@ export function Footer() {
           {/* Right: External links */}
           <div className="flex items-center gap-4 text-sm text-zinc-400">
             <a
-              href="https://github.com/veilpass/veilpass"
+              href="https://x.com/FOMO_ing"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-white transition-colors flex items-center gap-1"
+            >
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+              </svg>
+              @FOMO_ing
+            </a>
+            <a
+              href="https://github.com/hemjay07/veilpass"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-white transition-colors flex items-center gap-1"
