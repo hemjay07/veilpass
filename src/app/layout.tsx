@@ -45,6 +45,11 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  verification: {
+    other: {
+      "ory-verify": "orynth-f9b3a9b9a3114832bd915098c63cda1d",
+    },
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
